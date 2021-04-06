@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SA52T03_SWStore.Models;
 
 namespace SA52T03_SWStore.Data
 {
@@ -12,5 +13,6 @@ namespace SA52T03_SWStore.Data
             : base(options)
         {
         }
+        public DbSet<SA52T03_SWStore.Models.Category> Category { get; set; }
     }
 }
