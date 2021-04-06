@@ -31,7 +31,8 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Cart</a>
                         </li>
-
+                        @if(User.IsInRole("Admin"))
+                        { 
                         <li class="nav-item dropdown text-white-50">
                             <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Product Management
@@ -41,6 +42,7 @@
                                 <a class="dropdown-item" asp-action="Index" asp-controller="Product">Product</a>
                             </div>
                         </li>
+                        }
                     </ul>
                 </div>
             </div>
