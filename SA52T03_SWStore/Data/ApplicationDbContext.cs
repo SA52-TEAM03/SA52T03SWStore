@@ -15,5 +15,6 @@ namespace SA52T03_SWStore.Data
         }
         public DbSet<SA52T03_SWStore.Models.Category> Category { get; set; }
         public DbSet<SA52T03_SWStore.Models.Product> Product { get; set; }
+        public DbSet<SA52T03_SWStore.Models.ApplicationUser> ApplicationUser { get; set; }
     }
 }
