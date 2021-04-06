@@ -1,8 +1,29 @@
-﻿@{
+﻿@model HomePageViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row pb-3 backgroundWhite">
+
+    @foreach (var product in Model.Product)
+    {
+        <div class="col-lg-3 col-md-6">
+            <div class="row p-2">
+                <div class="col-12  p-1" style="border:1px solid #008cba; border-radius: 5px;">
+                    <div class="card" style="border:0px; height:600px" >
+                        <img src="@product.Image" class="card-img-top rounded" width="235" height="350"/>
+                        <div class="card-body">
+                            <p class="card-title h5"><b style="color:#2c3e50">@product.Name</b></p>
+                            <p class="card-text">@product.Description</p>
+                            <a href="#" class="btn btn-primary">$@product.Price Add to Cart</a>
+                        </div>
+                       
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    }
+
 </div>

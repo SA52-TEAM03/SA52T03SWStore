@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SA52T03_SWStore.Data;
 using SA52T03_SWStore.Models;
 using System;
 using System.Collections.Generic;
@@ -13,16 +15,21 @@ namespace SA52T03_SWStore.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ApplicationDbContext _db;
+        public HomeController(ApplicationDbContext db)
         {
-            _logger = logger;
+            _db = db;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            HomePageViewModel homePageViewModel = new HomePageViewModel()
+            {
+                Product = await _db.Product.Include(m => m.Category).ToListAsync(),
+                Category = await _db.Category.ToListAsync()
+            };
+
+            return View(homePageViewModel);
         }
 
         public IActionResult Privacy()
