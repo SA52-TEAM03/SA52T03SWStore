@@ -77,6 +77,8 @@ namespace SA52T03_SWStore.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            string role = Request.Form["rdUserRole"].ToString();
+
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -90,18 +92,7 @@ namespace SA52T03_SWStore.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    if (!await _roleManager.RoleExistsAsync("Customer"))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole("Customer"));
-                    }
-
-                    if (!await _roleManager.RoleExistsAsync("Admin"))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole("Admin"));
-                    }
-
-                    await _userManager.AddToRoleAsync(user, "Admin");
-
+                    await _userManager.AddToRoleAsync(user, "Customer");
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                     
