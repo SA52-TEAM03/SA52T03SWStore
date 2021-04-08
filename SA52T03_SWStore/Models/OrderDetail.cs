@@ -14,6 +14,8 @@ namespace SA52T03_SWStore.Models
         [Required]
         public int OrderId { get; set; }
 
+        public int Quantity { get; set; }
+
         [ForeignKey("OrderId")]
         public virtual Order Order { get; set; }
 

@@ -11,9 +11,7 @@ namespace SA52T03_SWStore.Models
     {
         public int Id { get; set; }
 
-        [Required]
-        public bool OrderState { get; set; }
-
+        
         [Required]
         public DateTime OrderDate { get; set; }
 
