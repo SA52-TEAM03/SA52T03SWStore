@@ -18,5 +18,7 @@ namespace SA52T03_SWStore.Data
         public DbSet<SA52T03_SWStore.Models.ApplicationUser> ApplicationUser { get; set; }
 
         public DbSet<SA52T03_SWStore.Models.Order> Order { get; set; }
+
+        public DbSet<SA52T03_SWStore.Models.OrderDetail> OrderDetail { get; set; }
     }
 }
