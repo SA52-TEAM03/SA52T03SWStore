@@ -7,24 +7,23 @@ using System.Threading.Tasks;
 
 namespace SA52T03_SWStore.Models
 {
-    public class OrderDetail
+    public class ShoppingCart
     {
+
         public int Id { get; set; }
 
-        [Required]
-        public int OrderId { get; set; }
+        public string CustomerId { get; set; }
 
-        [Required]
-        public int Quantity { get; set; }
-
-        [ForeignKey("OrderId")]
-        public virtual Order Order { get; set; }
-
+        [ForeignKey("CustomerId")]
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
         [Required]
         public int ProductId { get; set; }
 
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
+
+        [Required]
+        public int Quantity { get; set; }
     }
 }
