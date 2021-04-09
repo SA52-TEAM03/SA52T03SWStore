@@ -6,28 +6,26 @@
 <h3>My Purchase</h3>
 <hr />
 
-<table>
+<table width="80%" align="center" cellpadding="30">
     @foreach (Order item in Model)
     {
         @foreach (OrderDetail orderdetail in item.OrderDetail)
         {
             <tr>
-                <td width="30%">
+                <td width="40%">
                     <div class="card" style="border:1px solid #008cba; border-radius: 5px;" align="center">
-                        <img src="@orderdetail.Product.Image" width="200" height="240" />
-                        <div class="card-body">
+                        <p align="center"><img src="@orderdetail.Product.Image" width="100" height="120" /></p>
                             <p class="card-title h5"><b style="color:#2c3e50">@orderdetail.Product.Name</b></p>
-                            <p class="card-text">@orderdetail.Product.Description</p>
-                        </div>
+                            <p align="center">@orderdetail.Product.Description</p>
                     </div>
                 </td>
                 <td>
                     <table>
                         <tr>
-                            <td>
+                            <td width="30%">
                                 Purchased On:
                             </td>
-                            <td>
+                            <td width="30%">
                                 @Html.DisplayFor(modelItem => item.OrderDate)
                             </td>
                         </tr>
