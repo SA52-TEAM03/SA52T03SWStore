@@ -1,7 +1,25 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
-}
-
-<h1>Cart</h1>
-
+﻿<div class="container">
+    <h3>Shopping Cart</h3>
+    <hr />
+    <div class="card text-center mb-3 w-75 mx-auto border-dark">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <img src="/product.Image" class="card-img-top p-1" style="height:150px; width:auto" />
+                <div class="card-body">
+                    <h5 class="card-title text-center">product.Name</h5>
+                    <p class="card-text">product.Description</p>
+                    <p class="card-text">Unit Price: $product.Price</p>
+                </div>
+            </div>
+            <div class="col-md-6 align-self-center">
+                <div class="card-body">
+                    <p>
+                        Quantity: &nbsp;&nbsp;
+                        <input type="number" style="width:50px" id="quantity" value="1" min="1" />
+                    </p>
+                    <p class="card-text">Sub Total Price: $product.Price</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
