@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 
 namespace SA52T03_SWStore.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -65,14 +64,7 @@ namespace SA52T03_SWStore.Controllers
             }
             await _db.SaveChangesAsync();
 
-
             return RedirectToAction("Index");
-
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

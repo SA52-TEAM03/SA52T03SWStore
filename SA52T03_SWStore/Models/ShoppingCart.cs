@@ -11,19 +11,15 @@ namespace SA52T03_SWStore.Models
     {
 
         public int Id { get; set; }
-
         public string CustomerId { get; set; }
-
-        [ForeignKey("CustomerId")]
-        public virtual ApplicationUser ApplicationUser { get; set; }
-
         [Required]
         public int ProductId { get; set; }
+        [Required]
+        public int Quantity { get; set; }
 
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
-
-        [Required]
-        public int Quantity { get; set; }
+        [ForeignKey("CustomerId")]
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }
