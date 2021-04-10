@@ -1,7 +1,60 @@
-﻿
+﻿@model IEnumerable<SA52T03_SWStore.Models.Order>
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "My Purchase";
 }
+<h3>My Purchase</h3>
+<hr />
 
-<h1>Order History</h1>
-
+<table width="80%" align="center" cellpadding="30">
+    @foreach (Order item in Model)
+    {
+        @foreach (OrderDetail orderdetail in item.OrderDetail)
+        {
+            <tr>
+                <td width="40%">
+                    <div class="card" style="border:1px solid #008cba; border-radius: 5px;" align="center">
+                        <p align="center"><img src="@orderdetail.Product.Image" width="100" height="120" /></p>
+                            <p class="card-title h5"><b style="color:#2c3e50">@orderdetail.Product.Name</b></p>
+                            <p align="center">@orderdetail.Product.Description</p>
+                    </div>
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <td width="30%">
+                                Purchased On:
+                            </td>
+                            <td width="30%">
+                                @Html.DisplayFor(modelItem => item.OrderDate)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Quantity:
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => orderdetail.Quantity)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Activation Code:
+                            </td>
+                            <td>
+                                <select>
+                                    @for (int i = 0; i < orderdetail.Quantity; i++)
+                                    {
+                                        <option>
+                                            @("O00" + orderdetail.Id)-@("P00"+orderdetail.ProductId)-@("N00"+i)
+                                        </option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        }
+    }
+</table>
