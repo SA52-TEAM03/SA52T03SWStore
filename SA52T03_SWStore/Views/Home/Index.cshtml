@@ -4,26 +4,35 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="row pb-3 backgroundWhite">
-
-    @foreach (var product in Model.Product)
-    {
-        <div class="col-lg-3 col-md-6">
-            <div class="row p-2">
-                <div class="col-12  p-1" style="border:1px solid #008cba; border-radius: 5px;">
-                    <div class="card" style="border:0px; height:600px">
-                        <img src="@product.Image" class="card-img-top rounded" width="235" height="350" />
-                        <div class="card-body">
-                            <p class="card-title h5"><b style="color:#2c3e50">@product.Name</b></p>
-                            <p class="card-text">@product.Description</p>
-                            <a class="btn btn-primary" asp-action="AddToCart" asp-route-Id="@product.Id">$@product.Price Add to Cart </a>
-                        </div>
-
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3>Product</h3>
+        </div>
+        <div class="col text-right">
+            <form asp-controller="Home" asp-action="SearchResult" method="get">
+                <input type="text" placeholder="Search.." name="SearchString" />
+                <input type="submit" value="Search" />
+            </form>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        @foreach (var product in Model.Product)
+        {
+            <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 border-dark">
+                    <img src="@product.Image" class="card-img-top align-self-center p-1" style="height:150px; width:auto" />
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">@product.Description</p>
                     </div>
-
+                    <div class="card-footer bg-transparent border-0">
+                        <p class="card-text">Price: $@product.Price</p>
+                        <a class="btn btn-primary" asp-action="AddToCart" asp-route-Id="@product.Id">Add to Cart</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-
+        }
+    </div>
 </div>

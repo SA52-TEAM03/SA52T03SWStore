@@ -20,13 +20,13 @@
                     </div>
                 </td>
                 <td>
-                    <table>
+                    <table width="100%">
                         <tr>
                             <td width="30%">
                                 Purchased On:
                             </td>
                             <td width="30%">
-                                @Html.DisplayFor(modelItem => item.OrderDate)
+                                @item.OrderDate
                             </td>
                         </tr>
                         <tr>
@@ -34,7 +34,7 @@
                                 Quantity:
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => orderdetail.Quantity)
+                                @orderdetail.Quantity
                             </td>
                         </tr>
                         <tr>

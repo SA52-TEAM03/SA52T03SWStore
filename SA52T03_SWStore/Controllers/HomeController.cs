@@ -28,11 +28,20 @@ namespace SA52T03_SWStore.Controllers
                 Product = await _db.Product.Include(m => m.Category).ToListAsync(),
                 Category = await _db.Category.ToListAsync()
             };
-
             return View(homePageViewModel);
         }
 
+        public async Task<IActionResult> SearchResult(string SearchString)
+        {
+            HomePageViewModel homePageViewModel = new HomePageViewModel()
+            {
+                Product = await _db.Product.Where(j => j.Name.Contains(SearchString) || j.Description.Contains(SearchString)).Include(m => m.Category).ToListAsync(),
+                Category = await _db.Category.ToListAsync()
+            };
+            return View("Index", homePageViewModel);
+        }
 
+        [Authorize]
         public async Task<IActionResult> AddToCart(int id)
         {
 
