@@ -32,7 +32,6 @@ namespace SA52T03_SWStore.Controllers
             return View(homePageViewModel);
         }
 
-
         public IActionResult Privacy()
         {
             return View();
