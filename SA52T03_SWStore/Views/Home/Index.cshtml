@@ -16,7 +16,7 @@
                         <div class="card-body">
                             <p class="card-title h5"><b style="color:#2c3e50">@product.Name</b></p>
                             <p class="card-text">@product.Description</p>
-                            <a href="#" class="btn btn-primary">$@product.Price Add to Cart</a>
+                            <a class="btn btn-primary" asp-action="AddToCart" asp-route-Id="@product.Id">$@product.Price Add to Cart </a>
                         </div>
                        
                     </div>

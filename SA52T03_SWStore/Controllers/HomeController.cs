@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SA52T03_SWStore.Controllers
@@ -30,6 +31,43 @@ namespace SA52T03_SWStore.Controllers
             };
 
             return View(homePageViewModel);
+        }
+
+        
+        public async Task<IActionResult> AddToCart(int id)
+        {
+
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            var productFromDb = await _db.Product.Where(m => m.Id == id).FirstOrDefaultAsync();
+
+
+            ShoppingCart shoppingCart = new ShoppingCart
+            {
+                CustomerId = claim.Value,
+                Product = productFromDb,
+                ProductId = productFromDb.Id,
+                Quantity = 1
+            };
+
+            ShoppingCart cartFromDb = await _db.ShoppingCart.Where(c => c.CustomerId == shoppingCart.CustomerId
+                                                && c.ProductId == shoppingCart.ProductId).FirstOrDefaultAsync();
+
+            if (cartFromDb == null)
+            {
+                await _db.ShoppingCart.AddAsync(shoppingCart);
+                
+            }
+            else
+            {
+                cartFromDb.Quantity++;
+            }
+            await _db.SaveChangesAsync();
+
+
+            return RedirectToAction("Index");
+
         }
 
         public IActionResult Privacy()
