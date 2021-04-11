@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -28,6 +29,17 @@ namespace SA52T03_SWStore.Controllers
                 Product = await _db.Product.Include(m => m.Category).ToListAsync(),
                 Category = await _db.Category.ToListAsync()
             };
+
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (claim != null)
+            {
+                var count = _db.ShoppingCart.Where(u => u.CustomerId == claim.Value).ToList().Count;
+                HttpContext.Session.SetInt32("CartCount", count);
+            }
+
+
             return View(homePageViewModel);
         }
 

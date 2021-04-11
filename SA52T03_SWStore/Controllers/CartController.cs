@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SA52T03_SWStore.Data;
@@ -48,6 +49,8 @@ namespace SA52T03_SWStore.Controllers
 
             _context.Add(order);
             await _context.SaveChangesAsync();
+            
+            HttpContext.Session.SetInt32("CartCount", 0);
 
             return RedirectToAction("Index", "OrderHistory");
         }
@@ -88,13 +91,18 @@ namespace SA52T03_SWStore.Controllers
             string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             ShoppingCart cartFromDb = _context.ShoppingCart.Where(j => j.CustomerId == userId && j.ProductId == id).FirstOrDefault();
-            if (cartFromDb.Quantity > 1)
+            
+            if (cartFromDb.Quantity == 1)
             {
-                cartFromDb.Quantity--;
+                _context.Remove(cartFromDb);
+
+                var cnt = _context.ShoppingCart.Where(u => u.CustomerId == cartFromDb.CustomerId).ToList().Count;
+                HttpContext.Session.SetInt32("CartCount", --cnt);
+
             }
             else
             {
-                _context.Remove(cartFromDb);
+                cartFromDb.Quantity--;
             }
 
             await _context.SaveChangesAsync();
