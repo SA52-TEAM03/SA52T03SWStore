@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SA52T03_SWStore</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />    
-
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 </head>
 <body>
     <header>
@@ -29,19 +29,23 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Cart</a>
-                        </li>
-                        @if(User.IsInRole("Admin"))
-                        { 
-                        <li class="nav-item dropdown text-white-50">
-                            <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Product Management
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">
+                                Cart
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="badge badge-light">1</span>
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
-                                <a class="dropdown-item" asp-action="Index" asp-controller="Category">Category</a>
-                                <a class="dropdown-item" asp-action="Index" asp-controller="Product">Product</a>
-                            </div>
                         </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown text-white-50">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Product Management
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Category">Category</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Product">Product</a>
+                                </div>
+                            </li>
                         }
                     </ul>
                 </div>
