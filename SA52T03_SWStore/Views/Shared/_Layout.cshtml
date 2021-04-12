@@ -10,6 +10,7 @@
     <title>@ViewData["Title"] - SA52T03_SWStore</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
 </head>
 <body>
@@ -32,21 +33,23 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="OrderHistory" asp-action="Index">Order History</a>
                         </li>
 
-                        @if (HttpContextAccessor.HttpContext.Session.GetInt32(@"CartCount") != null)
-                        {
-                            <li class="nav-item">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">
+                                <i class="fas fa-shopping-cart"></i>
+
                                 @{
                                     var count = HttpContextAccessor.HttpContext.Session.GetInt32(@"CartCount");
-                                }
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Cart (@count)</a>
-                            </li>
-                         }
-                         else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Cart</a>
-                            </li>
-                        }                 
+
+                                    if (count == null)
+                                    {
+                                        count = 0;
+                                    }
+
+                                    <span class="badge badge-light">(@count)</span>
+                                }                               
+
+                            </a>
+                        </li>                                                             
 
 
                         @if (User.IsInRole("Admin"))
