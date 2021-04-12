@@ -83,6 +83,17 @@ namespace SA52T03_SWStore.Controllers
             }
             await _context.SaveChangesAsync();
 
+            List<ShoppingCart> lstShoppingCart = await _context.ShoppingCart.Where(u => u.CustomerId == userId).ToListAsync();
+
+            int count = 0;
+
+            foreach (var cartItem in lstShoppingCart)
+            {
+                count += cartItem.Quantity;
+            }
+
+            HttpContext.Session.SetInt32("CartCount", count);
+
             return RedirectToAction("Index");
         }
 
@@ -94,10 +105,7 @@ namespace SA52T03_SWStore.Controllers
             
             if (cartFromDb.Quantity == 1)
             {
-                _context.Remove(cartFromDb);
-
-                var cnt = _context.ShoppingCart.Where(u => u.CustomerId == cartFromDb.CustomerId).ToList().Count;
-                HttpContext.Session.SetInt32("CartCount", --cnt);
+                _context.Remove(cartFromDb);                
 
             }
             else
@@ -106,6 +114,17 @@ namespace SA52T03_SWStore.Controllers
             }
 
             await _context.SaveChangesAsync();
+
+            List<ShoppingCart> lstShoppingCart = await _context.ShoppingCart.Where(u => u.CustomerId == userId).ToListAsync();
+
+            int count = 0;
+
+            foreach (var cartItem in lstShoppingCart)
+            {
+                count += cartItem.Quantity;
+            }
+
+            HttpContext.Session.SetInt32("CartCount", count);
 
             return RedirectToAction("Index");
         }

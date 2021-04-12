@@ -34,11 +34,19 @@ namespace SA52T03_SWStore.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             if (claim != null)
-            {
-                var count = _db.ShoppingCart.Where(u => u.CustomerId == claim.Value).ToList().Count;
+            {                
+
+                List<ShoppingCart> lstShoppingCart = await _db.ShoppingCart.Where(u => u.CustomerId == claim.Value).ToListAsync();
+                
+                int count = 0;
+
+                foreach (var cartItem in lstShoppingCart)
+                {
+                    count += cartItem.Quantity;
+                }
+
                 HttpContext.Session.SetInt32("CartCount", count);
             }
-
 
             return View(homePageViewModel);
         }

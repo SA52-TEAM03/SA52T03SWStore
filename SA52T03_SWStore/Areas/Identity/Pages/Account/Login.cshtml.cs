@@ -93,7 +93,14 @@ namespace SA52T03_SWStore.Areas.Identity.Pages.Account
 
                     List<ShoppingCart> lstShoppingCart = await _db.ShoppingCart.Where(u => u.CustomerId == user.Id).ToListAsync();
 
-                    HttpContext.Session.SetInt32("CartCount", lstShoppingCart.Count);
+                    int count = 0;
+
+                    foreach(var cartItem in lstShoppingCart)
+                    {
+                        count += cartItem.Quantity;
+                    }
+
+                    HttpContext.Session.SetInt32("CartCount", count);
 
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
