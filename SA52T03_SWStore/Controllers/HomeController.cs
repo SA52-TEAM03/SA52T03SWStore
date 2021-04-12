@@ -53,6 +53,11 @@ namespace SA52T03_SWStore.Controllers
 
         public async Task<IActionResult> SearchResult(string SearchString)
         {
+            if(SearchString == null)
+            {
+                return RedirectToAction("Index");
+            }
+
             HomePageViewModel homePageViewModel = new HomePageViewModel()
             {
                 Product = await _db.Product.Where(j => j.Name.Contains(SearchString) || j.Description.Contains(SearchString)).Include(m => m.Category).ToListAsync(),
