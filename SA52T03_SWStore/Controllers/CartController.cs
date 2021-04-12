@@ -21,10 +21,12 @@ namespace SA52T03_SWStore.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var applicationDbContext = _context.ShoppingCart.Where(j => j.ApplicationUser.Id == userId)
-                .Include(e => e.Product);
-            return View(await applicationDbContext.ToListAsync());
+            string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);        
+
+            List<ShoppingCart> shoppingCartItems = await _context.ShoppingCart.Where(u => u.CustomerId == userId)
+                .Include(e => e.Product).ToListAsync();
+
+            return View(shoppingCartItems);
         }
 
         [Authorize]
@@ -39,12 +41,12 @@ namespace SA52T03_SWStore.Controllers
                 OrderDetail = new List<OrderDetail>()
             };
 
-            List<ShoppingCart> shoppingCarts = _context.ShoppingCart.Where(j => j.CustomerId == userId).ToList();
+            List<ShoppingCart> shoppingCartItems = await _context.ShoppingCart.Where(j => j.CustomerId == userId).ToListAsync();
 
-            foreach (ShoppingCart shoppingCart in shoppingCarts)
+            foreach (ShoppingCart shoppingCartItem in shoppingCartItems)
             {
-                order.OrderDetail.Add(new OrderDetail { ProductId = shoppingCart.ProductId, Quantity = shoppingCart.Quantity });
-                _context.ShoppingCart.Remove(shoppingCart);
+                order.OrderDetail.Add(new OrderDetail { ProductId = shoppingCartItem.ProductId, Quantity = shoppingCartItem.Quantity });
+                _context.ShoppingCart.Remove(shoppingCartItem);
             }
 
             _context.Add(order);
@@ -57,37 +59,21 @@ namespace SA52T03_SWStore.Controllers
 
         public async Task<IActionResult> Add(int id)
         {
-            string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);            
 
-            var productFromDb = await _context.Product.Where(m => m.Id == id).FirstOrDefaultAsync();
+            
+            ShoppingCart shoppingCartItem = await _context.ShoppingCart.Where(c => c.CustomerId == userId
+                                                && c.ProductId == id).FirstOrDefaultAsync();
 
-            ShoppingCart shoppingCart = new ShoppingCart
-            {
-                CustomerId = userId,
-                Product = productFromDb,
-                ProductId = productFromDb.Id,
-                Quantity = 1
-            };
-
-            ShoppingCart cartFromDb = await _context.ShoppingCart.Where(c => c.CustomerId == shoppingCart.CustomerId
-                                                && c.ProductId == shoppingCart.ProductId).FirstOrDefaultAsync();
-
-            if (cartFromDb == null)
-            {
-                await _context.ShoppingCart.AddAsync(shoppingCart);
-
-            }
-            else
-            {
-                cartFromDb.Quantity++;
-            }
+            shoppingCartItem.Quantity++;
+            
             await _context.SaveChangesAsync();
 
-            List<ShoppingCart> lstShoppingCart = await _context.ShoppingCart.Where(u => u.CustomerId == userId).ToListAsync();
+            List<ShoppingCart> shoppingCartItems = await _context.ShoppingCart.Where(u => u.CustomerId == userId).ToListAsync();
 
             int count = 0;
 
-            foreach (var cartItem in lstShoppingCart)
+            foreach (var cartItem in shoppingCartItems)
             {
                 count += cartItem.Quantity;
             }
@@ -101,25 +87,25 @@ namespace SA52T03_SWStore.Controllers
         {
             string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            ShoppingCart cartFromDb = _context.ShoppingCart.Where(j => j.CustomerId == userId && j.ProductId == id).FirstOrDefault();
+            ShoppingCart shoppingCartItem = _context.ShoppingCart.Where(j => j.CustomerId == userId && j.ProductId == id).FirstOrDefault();
             
-            if (cartFromDb.Quantity == 1)
+            if (shoppingCartItem.Quantity == 1)
             {
-                _context.Remove(cartFromDb);                
+                _context.Remove(shoppingCartItem);                
 
             }
             else
             {
-                cartFromDb.Quantity--;
+                shoppingCartItem.Quantity--;
             }
 
             await _context.SaveChangesAsync();
 
-            List<ShoppingCart> lstShoppingCart = await _context.ShoppingCart.Where(u => u.CustomerId == userId).ToListAsync();
+            List<ShoppingCart> shoppingCartItems = await _context.ShoppingCart.Where(u => u.CustomerId == userId).ToListAsync();
 
             int count = 0;
 
-            foreach (var cartItem in lstShoppingCart)
+            foreach (var cartItem in shoppingCartItems)
             {
                 count += cartItem.Quantity;
             }
