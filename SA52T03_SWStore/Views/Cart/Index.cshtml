@@ -1,7 +1,63 @@
-﻿
+﻿@model IEnumerable<SA52T03_SWStore.Models.ShoppingCart>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "My ShoppingCart";
+    List<ShoppingCart> shoppingCarts = Model.ToList();
+    double total = 0;
+    foreach (ShoppingCart shoppingCart in shoppingCarts)
+    {
+        total += shoppingCart.Product.Price * shoppingCart.Quantity;
+    }
 }
+<div class="row align-items-center">
+    <div class="col">
+        <h3>Shopping Cart</h3>
+    </div>
+    <div class="col text-right" align="right">
+        <a class="nav-link text-dark" asp-controller="Cart" asp-action="CheckOut">CheckOut</a>
+    </div>
+    <div class="col" align="right">
+        <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Continue Shopping</a>
+    </div>
+    <div class="col" align="right">
+        <p>Total:  $@total</p>
+    </div>
+</div>
 
-<h1>Cart</h1>
+<hr />
 
+<table width="80%" align="center" cellpadding="30">
+    @for (int i = 0; i < shoppingCarts.Count(); i++)
+    {
+        <tr>
+            <td width="40%">
+                <div class="card" style="border:1px solid #008cba; border-radius: 5px;" align="center">
+                    <p align="center"><img src="@shoppingCarts[i].Product.Image" width="100" height="120" /></p>
+                    <p class="card-title h5"><b style="color:#2c3e50">@shoppingCarts[i].Product.Name</b></p>
+                    <p align="center">@shoppingCarts[i].Product.Description</p>
+                </div>
+            </td>
+            <td>
+                <table width="100%">
+                    <tr>
+                        <td width="50%">
+                            Quantity:
+                        </td>
+                        <td width="50%">
+                            <a class="btn btn-primary" asp-action="Add" asp-route-Id="@shoppingCarts[i].Product.Id"> + </a>
+                            @shoppingCarts[i].Quantity
+                            <a class="btn btn-primary" asp-action="Deduce" asp-route-Id="@shoppingCarts[i].Product.Id"> - </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Price:
+                        </td>
+                        <td id="price">
+                            $@shoppingCarts[i].Product.Price;
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    }
+</table>
