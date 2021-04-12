@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 
 namespace SA52T03_SWStore.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -29,11 +28,20 @@ namespace SA52T03_SWStore.Controllers
                 Product = await _db.Product.Include(m => m.Category).ToListAsync(),
                 Category = await _db.Category.ToListAsync()
             };
-
             return View(homePageViewModel);
         }
 
-        
+        public async Task<IActionResult> SearchResult(string SearchString)
+        {
+            HomePageViewModel homePageViewModel = new HomePageViewModel()
+            {
+                Product = await _db.Product.Where(j => j.Name.Contains(SearchString) || j.Description.Contains(SearchString)).Include(m => m.Category).ToListAsync(),
+                Category = await _db.Category.ToListAsync()
+            };
+            return View("Index", homePageViewModel);
+        }
+
+        [Authorize]
         public async Task<IActionResult> AddToCart(int id)
         {
 
@@ -57,7 +65,7 @@ namespace SA52T03_SWStore.Controllers
             if (cartFromDb == null)
             {
                 await _db.ShoppingCart.AddAsync(shoppingCart);
-                
+
             }
             else
             {
@@ -65,14 +73,7 @@ namespace SA52T03_SWStore.Controllers
             }
             await _db.SaveChangesAsync();
 
-
             return RedirectToAction("Index");
-
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -15,14 +15,13 @@ namespace SA52T03_SWStore.Models
         public int OrderId { get; set; }
 
         [Required]
+        public int ProductId { get; set; }
+
+        [Required]
         public int Quantity { get; set; }
 
         [ForeignKey("OrderId")]
         public virtual Order Order { get; set; }
-
-
-        [Required]
-        public int ProductId { get; set; }
 
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
