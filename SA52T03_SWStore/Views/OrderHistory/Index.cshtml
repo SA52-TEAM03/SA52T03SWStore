@@ -2,59 +2,108 @@
 
 @{
     ViewData["Title"] = "My Purchase";
-}
-<h3>My Purchase</h3>
-<hr />
+    List<Order> allOrder = new List<Order> { };
 
-<table width="80%" align="center" cellpadding="30">
-    @foreach (Order item in Model)
+    foreach (Order item in Model)
+    {
+        allOrder.Add(item);
+        allOrder.Sort((a, b) => a.OrderDate.CompareTo(b.OrderDate));
+        allOrder.Reverse();
+
+    }
+}
+
+<h3>My Purchase</h3>
+
+<div class="input-group" style="float:right">
+    <span class="glyphicon glyphicon-search"></span>
+    <input type="text" class="form-control " id="filterName" placeholder="Search" />
+</div>
+
+
+
+<table class="table" width="80%" align="center" cellpadding="30">
+    @foreach (Order item in allOrder)
     {
         @foreach (OrderDetail orderdetail in item.OrderDetail)
         {
-            <tr>
-                <td width="40%">
-                    <div class="card" style="border:1px solid #008cba; border-radius: 5px;" align="center">
-                        <p align="center"><img src="@orderdetail.Product.Image" width="100" height="120" /></p>
+            <tr height="200px">
+                <td width="40%" >
+                    <div style="border:1px solid #008cba; border-radius: 5px; height:180px">
+                        <div align="center">
+                            <p align="center" ><img src="@orderdetail.Product.Image" width="80" height="80" /></p>
                             <p class="card-title h5"><b style="color:#2c3e50">@orderdetail.Product.Name</b></p>
-                            <p align="center">@orderdetail.Product.Description</p>
+                            <p align="center" style=" font-size: 15px">@orderdetail.Product.Description</p>
+                        </div>
                     </div>
                 </td>
+
                 <td>
-                    <table width="100%">
-                        <tr>
-                            <td width="30%">
-                                Purchased On:
-                            </td>
-                            <td width="30%">
-                                @item.OrderDate
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Quantity:
-                            </td>
-                            <td>
-                                @orderdetail.Quantity
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Activation Code:
-                            </td>
-                            <td>
-                                <select>
-                                    @for (int i = 0; i < orderdetail.Quantity; i++)
-                                    {
-                                        <option>
-                                            @("O000" + orderdetail.Id)-@("P000"+orderdetail.ProductId)-@("N000"+i)
-                                        </option>
-                                    }
-                                </select>
-                            </td>
-                        </tr>
-                    </table>
+                    <div>
+                        <br />
+                        <label class="col-sm-5"> Purchased On:</label>
+                        <span class="col-sm-8"> @Html.DisplayFor(modelItem => item.OrderDate)</span>
+
+
+                        <label class="col-sm-5"> Purchased On:</label>
+                        <span class="col-sm-8"> @Html.DisplayFor(modelItem => orderdetail.Quantity)</span>
+
+                        <div class=" row">
+                            <label class="col-sm-5"> &nbsp&nbsp&nbspActivation Code:</label>
+                            <span class="col-sm-5">
+                                @if (orderdetail.Quantity > 1)
+                                {
+                                    <select>
+                                        @for (int i = 0; i < orderdetail.Quantity; i++)
+                                        {
+
+                                            <option>
+                                                @("O00" + orderdetail.Id)-@("P00"+orderdetail.ProductId)-@("N00"+i)
+                                            </option>
+                                        }
+                                    </select>
+                                }
+                                else
+                                {
+                                    <span>&nbsp&nbsp@("O00" + orderdetail.Id)-@("P00"+orderdetail.ProductId)-@(" "+"N00")</span>
+                                }
+                        </div>
+
+                        <div>
+                            <label class="col-sm-5"> Remaining Days:</label>
+                            <span class="col-sm-8" id="RemainingDays">
+                                @if (((DateTime.Now).Subtract(item.OrderDate)).Days < 365)
+                                {
+                                    <span>@(365-(DateTime.Now).Subtract(item.OrderDate).Days)</span>
+                                }
+                                else
+                                {
+                                    <span>0</span>
+                                }
+                            </span>
+
+                        </div>
+                </td>
+
+                <td width="20%">
+                    <br />
+                    <br />
+                    <div>
+                        <button class="btn btn-link btn-outline-light col-sm-12" asp-controller="Product" asp-action="Index">Download</button>
+
+                        <button class="btn btn-link btn-outline-light col-sm-12" asp-controller="Cart" asp-action="Index">Order Again</button>
+                    </div>
                 </td>
             </tr>
         }
     }
 </table>
+
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
+<script src="~/js/Orderhistory_Search.js"></script>
+
+
+
+
