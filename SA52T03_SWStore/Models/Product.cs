@@ -16,7 +16,7 @@ namespace SA52T03_SWStore.Models
 
         public string Description { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = "Price need to be greater than ${0}!")]
+        [Range(0.01, int.MaxValue, ErrorMessage = "Price need to be greater than $0!")]
         public double Price { get; set; }
 
         public string Image { get; set; }
