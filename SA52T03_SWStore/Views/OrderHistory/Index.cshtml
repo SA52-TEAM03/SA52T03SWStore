@@ -46,7 +46,7 @@
                                     @for (int i = 0; i < orderdetail.Quantity; i++)
                                     {
                                         <option>
-                                            @("O000" + orderdetail.Id)-@("P000"+orderdetail.ProductId)-@("N000"+i)
+                                            @Guid.NewGuid().ToString()
                                         </option>
                                     }
                                 </select>
