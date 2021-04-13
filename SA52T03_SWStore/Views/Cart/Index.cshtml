@@ -7,11 +7,9 @@
     {
         total += shoppingCart.Product.Price * shoppingCart.Quantity;
     }
-<<<<<<< Updated upstream
-=======
+
     string totalprice = string.Format("{0:f}", total);
-   
->>>>>>> Stashed changes
+
 }
 <style>
     * {
@@ -115,18 +113,6 @@
     <div class="col">
         <h3>Shopping Cart</h3>
     </div>
-<<<<<<< Updated upstream
-    <div class="col text-right" align="right">
-        <a class="nav-link text-dark" asp-controller="Cart" asp-action="CheckOut">CheckOut</a>
-    </div>
-    <div class="col" align="right">
-        <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Continue Shopping</a>
-    </div>
-    <div class="col" align="right">
-        <p>Total:  $@total</p>
-    </div>
-=======
->>>>>>> Stashed changes
 </div>
 
 <hr />
@@ -158,7 +144,7 @@
             @:<td style="padding-bottom: 45px;">
                 <a class="minusBtn" name="button2" id="MinusBtn1" asp-action="Deduce" asp-route-Id="@shoppingCarts[i].Product.Id">
                     <img src="https://user-images.githubusercontent.com/78943219/114554781-a8bfbf00-9c99-11eb-83f2-44297681f642.png"
-                         alt="Minus" asp-action="Deduce" asp-route-Id="@shoppingCarts[i].Product.Id" />
+                         alt="Minus" />
                 </a>
             @:</td>
         @:</tr>
@@ -175,10 +161,10 @@
 <table class="table2">
     <tr>
         <td>
-            <input type="button" id="Continue_Shopping" class="buttonCart" value="Continue Shopping" asp-controller="Home" asp-action="Index" />
+           <a asp-controller="Home" asp-action="Index"><input type="button" id="Continue_Shopping" class="buttonCart" value="Continue Shopping"/></a>
         </td>
         <td style="padding-left: 400px;">
-            <input type="button" id="Checkout" class="buttonCart" value="Checkout Now" asp-controller="Cart" asp-action="CheckOut" />
+           <a asp-controller="Cart" asp-action="CheckOut"><input type="button" id="Checkout" class="buttonCart" value="Checkout Now"/></a>
         </td>
     </tr>
 </table>
