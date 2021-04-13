@@ -7,8 +7,8 @@ namespace SA52T03_SWStore.Models
 {
     public class Pager
     {
-        public int TotalItems { get; set; }
-        public int CurrentPage { get; set; }
+        public int TotalItems { get; private set; }
+        public int CurrentPage { get; private set; }
         public int PageSize { get; private set; }
         public int TotalPages { get; private set; }
         public int StartPage { get; private set; }
