@@ -7,11 +7,115 @@
     {
         total += shoppingCart.Product.Price * shoppingCart.Quantity;
     }
+<<<<<<< Updated upstream
+=======
+    string totalprice = string.Format("{0:f}", total);
+   
+>>>>>>> Stashed changes
 }
+<style>
+    * {
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        vertical-align: central;
+    }
+
+    .price {
+        width: 100px;
+    }
+
+    .boldmenu {
+        font-weight: bolder;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .menubar:hover {
+        font-weight: bolder;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .itemName {
+        font-weight: bold;
+        font-size: larger;
+    }
+
+    .itemPrice {
+        font-size: large;
+    }
+
+    .images1 {
+        padding-bottom: 10px;
+    }
+
+    td {
+        padding-bottom: 30px;
+        padding-left: 20px;
+        padding-top: 28px;
+    }
+
+    input[type='number'] {
+        font-size: medium;
+        border: 0px;
+        padding-left: 10px;
+        padding-right: 2px;
+        width: 30px;
+        padding-bottom: 20px;
+    }
+
+    .buttonCart {
+        background-color: white;
+        border: 2px outset #08285F;
+        border-radius: 12px;
+        color: #08285F;
+        font-family: fordAntenna, Helvetica, Courier;
+        font-size: 10pt;
+        padding: 5px 5px;
+        margin-left: auto;
+        margin-right: 115px;
+        transition: all 0.3s ease-in-out;
+        height: 40px;
+
+    }
+
+        .buttonCart:hover {
+            background-color: #08285F;
+            border: 2px inset #08285F;
+            color: white;
+        }
+
+    .addBtn, .minusBtn, .removeBtn {
+        cursor: pointer;
+        border: 0px;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .table1 {
+        margin: auto;
+        width: 750px;
+        background: white;
+        box-shadow: 1px 2px 3px 3px rgba(0,0,0,0.30);
+        border-radius: 6px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        flex-wrap: nowrap;
+        margin-bottom: 38px;
+    }
+
+    .table2 {
+        margin-left: 80px;
+    }
+</style>
 <div class="row align-items-center">
     <div class="col">
         <h3>Shopping Cart</h3>
     </div>
+<<<<<<< Updated upstream
     <div class="col text-right" align="right">
         <a class="nav-link text-dark" asp-controller="Cart" asp-action="CheckOut">CheckOut</a>
     </div>
@@ -21,43 +125,60 @@
     <div class="col" align="right">
         <p>Total:  $@total</p>
     </div>
+=======
+>>>>>>> Stashed changes
 </div>
 
 <hr />
 
-<table width="80%" align="center" cellpadding="30">
+
+<table class="table1">
     @for (int i = 0; i < shoppingCarts.Count(); i++)
     {
-        <tr>
-            <td width="40%">
-                <div class="card" style="border:1px solid #008cba; border-radius: 5px;" align="center">
-                    <p align="center"><img src="@shoppingCarts[i].Product.Image" width="100" height="120" /></p>
-                    <p class="card-title h5"><b style="color:#2c3e50">@shoppingCarts[i].Product.Name</b></p>
-                    <p align="center">@shoppingCarts[i].Product.Description</p>
-                </div>
-            </td>
-            <td>
-                <table width="100%">
-                    <tr>
-                        <td width="50%">
-                            Quantity:
-                        </td>
-                        <td width="50%">
-                            <a class="btn btn-primary" asp-action="Add" asp-route-Id="@shoppingCarts[i].Product.Id"> + </a>
-                            @shoppingCarts[i].Quantity
-                            <a class="btn btn-primary" asp-action="Deduce" asp-route-Id="@shoppingCarts[i].Product.Id"> - </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Price:
-                        </td>
-                        <td id="price">
-                            $@shoppingCarts[i].Product.Price;
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+
+        @:<tr>
+            @:<td>
+                @:<img class="productImages" id="productImages[i]" src="@shoppingCarts[i].Product.Image" width="60" height="70" />
+            @:</td>
+            @:<td style="width:350px; padding-left:30px;">
+                <p class="itemName">@shoppingCarts[i].Product.Name</p>
+            @:</td>
+            @:<td style="padding-right:30px;">
+                  <p class="itemPrice">$ @string.Format("{0:f}", shoppingCarts[i].Product.Price)</p>
+            @:</td>
+            @:<td style="padding-bottom: 45px;">
+                <a class="addBtn" name="button" id="addBtn1" asp-action="Add" asp-route-Id="@shoppingCarts[i].Product.Id">
+                    <img src="https://user-images.githubusercontent.com/78943219/114554716-9a71a300-9c99-11eb-91d9-55dd636dfebd.png"
+                         alt="Add"/>
+                </a>
+            @:</td>
+            @:<td>
+                <p class="item_qty">@shoppingCarts[i].Quantity</p>
+            @:</td>
+            @:<td style="padding-bottom: 45px;">
+                <a class="minusBtn" name="button2" id="MinusBtn1" asp-action="Deduce" asp-route-Id="@shoppingCarts[i].Product.Id">
+                    <img src="https://user-images.githubusercontent.com/78943219/114554781-a8bfbf00-9c99-11eb-83f2-44297681f642.png"
+                         alt="Minus" asp-action="Deduce" asp-route-Id="@shoppingCarts[i].Product.Id" />
+                </a>
+            @:</td>
+        @:</tr>
     }
+</table>
+<table class="table2">
+    <tr>
+        <td width="150px">
+            <p><b>TOTAL PRICE: </b></p><input style="width:200px; border: 0px; font-weight: bold; font-size:x-large;" type="text" id="totalPrice" value=$@totalprice readonly />
+        </td>
+    </tr>
+</table>
+
+<table class="table2">
+    <tr>
+        <td>
+            <input type="button" id="Continue_Shopping" class="buttonCart" value="Continue Shopping" asp-controller="Home" asp-action="Index" />
+        </td>
+        <td style="padding-left: 400px;">
+            <input type="button" id="Checkout" class="buttonCart" value="Checkout Now" asp-controller="Cart" asp-action="CheckOut" />
+        </td>
+    </tr>
 </table>

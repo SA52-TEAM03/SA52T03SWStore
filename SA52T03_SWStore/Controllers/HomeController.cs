@@ -70,6 +70,7 @@ namespace SA52T03_SWStore.Controllers
             else
             {
                 cartFromDb.Quantity++;
+                
             }
             await _db.SaveChangesAsync();
 
@@ -81,5 +82,7 @@ namespace SA52T03_SWStore.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+       
     }
 }
