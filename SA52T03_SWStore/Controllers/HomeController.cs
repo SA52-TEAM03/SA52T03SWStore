@@ -22,8 +22,10 @@ namespace SA52T03_SWStore.Controllers
             _db = db;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
+            HttpContext.Session.Remove("SearchString");
+
             HomePageViewModel homePageViewModel = new HomePageViewModel()
             {
                 Product = await _db.Product.Include(m => m.Category).ToListAsync(),
@@ -48,22 +50,51 @@ namespace SA52T03_SWStore.Controllers
                 HttpContext.Session.SetInt32("CartCount", count);
             }
 
+            int totalpage = 1;
+            if (homePageViewModel.Product.Count() != 0)
+                totalpage = (int)Math.Ceiling((double)homePageViewModel.Product.Count() / 9);
+
+            ViewData["TotalPage"] = totalpage;
+            ViewData["CurrentPage"] = page;
+
             return View(homePageViewModel);
         }
 
-        public async Task<IActionResult> SearchResult(string SearchString)
+        public async Task<IActionResult> SearchResult(string SearchString, int page)
         {
-            if(SearchString == null)
+            if (SearchString == null)
             {
                 return RedirectToAction("Index");
             }
 
+            if (SearchString != HttpContext.Session.GetString("SearchString"))
+            {
+                page = 1;
+                HttpContext.Session.SetString("SearchString", SearchString);
+            }
+                
             HomePageViewModel homePageViewModel = new HomePageViewModel()
             {
                 Product = await _db.Product.Where(j => j.Name.Contains(SearchString) || j.Description.Contains(SearchString)).Include(m => m.Category).ToListAsync(),
                 Category = await _db.Category.ToListAsync()
-            };
+            };            
+
+            int totalpage = 1;
+            if (homePageViewModel.Product.Count() != 0)
+                totalpage = (int)Math.Ceiling((double)homePageViewModel.Product.Count() / 9);
+
+            ViewData["SearchResult"] = homePageViewModel.Product.Count() + " product(s) related to \"" + SearchString + "\"";
+            ViewData["TotalPage"] = totalpage;
+            ViewData["CurrentPage"] = page;
+
             return View("Index", homePageViewModel);
+        }
+
+        public IActionResult CurrentSearch(int page)
+        {
+            string currentSearch = HttpContext.Session.GetString("SearchString");
+            int currentPage = page;
+            return RedirectToAction("SearchResult", new { SearchString = currentSearch, page = currentPage });
         }
 
         [Authorize]
