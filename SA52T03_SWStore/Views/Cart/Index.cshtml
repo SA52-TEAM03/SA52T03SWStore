@@ -7,7 +7,6 @@
     {
         total += shoppingCart.Product.Price * shoppingCart.Quantity;
     }
-    string totalprice = string.Format("{0:C2}", total);
 }
 <div class="row align-items-center">
     <div class="col">
@@ -20,7 +19,7 @@
         <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Continue Shopping</a>
     </div>
     <div class="col" align="right">
-        <p>Total:  @totalprice</p>
+        <p>Total:  $@total</p>
     </div>
 </div>
 

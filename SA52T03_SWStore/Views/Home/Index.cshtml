@@ -2,21 +2,12 @@
 
 @{
     ViewData["Title"] = "Home Page";
-
-    string search = (string)ViewData["SearchResult"];
-
-    string action = "Index";
-    if (!string.IsNullOrEmpty(search))
-        action = "CurrentSearch";
 }
 
 <div class="container">
     <div class="row align-items-center">
         <div class="col">
             <h3>Product</h3>
-        </div>
-        <div class="col text-center">
-            @ViewData["SearchResult"]
         </div>
         <div class="col text-right">
             <form asp-controller="Home" asp-action="SearchResult" method="get">
@@ -27,7 +18,7 @@
     </div>
     <hr />
     <div class="row">
-        @foreach (var product in Model.Product.Skip(Model.Pager.PageSize * (Model.Pager.CurrentPage - 1)).Take(Model.Pager.PageSize))
+        @foreach (var product in Model.Product)
         {
             <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
                 <div class="card h-100 border-dark">
@@ -38,62 +29,10 @@
                     </div>
                     <div class="card-footer bg-transparent border-0">
                         <p class="card-text">Price: $@product.Price</p>
-                        <a class="btn btn-primary" asp-action="AddToCart" asp-route-Id="@product.Id" asp-route-page=@Model.Pager.CurrentPage>Add to Cart</a>
+                        <a class="btn btn-primary" asp-action="AddToCart" asp-route-Id="@product.Id">Add to Cart</a>
                     </div>
                 </div>
             </div>
         }
     </div>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            @if (Model.Pager.CurrentPage == 1)
-            {
-                <li class="page-item disabled">
-                    <a class="page-link" asp-action=@action asp-route-page=@Model.Pager.CurrentPage aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>
-            }
-            else
-            {
-                <li class="page-item">
-                    <a class="page-link" asp-action=@action asp-route-page=@(Model.Pager.CurrentPage-1) aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>
-            }
-            @for (int i = Model.Pager.StartPage; i <= Model.Pager.EndPage; i++)
-            {
-                if (i == Model.Pager.CurrentPage)
-                {
-                    <li class="page-item active"><a class="page-link" asp-action=@action asp-route-page=@i>@i</a></li>
-                }
-                else
-                {
-                    <li class="page-item"><a class="page-link" asp-action=@action asp-route-page=@i>@i</a></li>
-                }
-
-            }
-            @if (Model.Pager.CurrentPage == Model.Pager.TotalPages)
-            {
-                <li class="page-item disabled">
-                    <a class="page-link" asp-action=@action asp-route-page=@Model.Pager.CurrentPage aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </li>
-            }
-            else
-            {
-                <li class="page-item">
-                    <a class="page-link" asp-action=@action asp-route-page=@(Model.Pager.CurrentPage+1) aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </li>
-            }
-        </ul>
-    </nav>
 </div>
