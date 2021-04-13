@@ -50,15 +50,15 @@
                                     <select>
                                         @for (int i = 0; i < orderdetail.Quantity; i++)
                                         {
-                                            <option>
-                                                @("O00" + orderdetail.Id)-@("P00"+orderdetail.ProductId)-@("N00"+i)
-                                            </option>
+                                        <option>
+                                            @Guid.NewGuid().ToString()
+                                        </option>
                                         }
                                     </select>
                                 }
                                 else
                                 {
-                                    <span>&nbsp&nbsp@("O00" + orderdetail.Id)-@("P00"+orderdetail.ProductId)-@(" "+"N00")</span>
+                                    <span>&nbsp&nbsp @Guid.NewGuid().ToString()</span>
                                 }
                             </span>
                         </div>
