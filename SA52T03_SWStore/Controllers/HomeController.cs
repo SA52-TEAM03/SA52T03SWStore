@@ -32,6 +32,8 @@ namespace SA52T03_SWStore.Controllers
                 Category = await _db.Category.ToListAsync()
             };
 
+            homePageViewModel.Pager = new Pager(homePageViewModel.Product.Count(), page);
+
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
@@ -49,13 +51,6 @@ namespace SA52T03_SWStore.Controllers
 
                 HttpContext.Session.SetInt32("CartCount", count);
             }
-
-            int totalpage = 1;
-            if (homePageViewModel.Product.Count() != 0)
-                totalpage = (int)Math.Ceiling((double)homePageViewModel.Product.Count() / 9);
-
-            ViewData["TotalPage"] = totalpage;
-            ViewData["CurrentPage"] = page;
 
             return View(homePageViewModel);
         }
@@ -77,15 +72,11 @@ namespace SA52T03_SWStore.Controllers
             {
                 Product = await _db.Product.Where(j => j.Name.Contains(SearchString) || j.Description.Contains(SearchString)).Include(m => m.Category).ToListAsync(),
                 Category = await _db.Category.ToListAsync()
-            };            
+            };
 
-            int totalpage = 1;
-            if (homePageViewModel.Product.Count() != 0)
-                totalpage = (int)Math.Ceiling((double)homePageViewModel.Product.Count() / 9);
+            homePageViewModel.Pager = new Pager(homePageViewModel.Product.Count(), page);
 
             ViewData["SearchResult"] = homePageViewModel.Product.Count() + " product(s) related to \"" + SearchString + "\"";
-            ViewData["TotalPage"] = totalpage;
-            ViewData["CurrentPage"] = page;
 
             return View("Index", homePageViewModel);
         }
