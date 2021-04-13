@@ -38,10 +38,10 @@ namespace SA52T03_SWStore.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             if (claim != null)
-            {                
+            {
 
                 List<ShoppingCart> lstShoppingCart = await _db.ShoppingCart.Where(u => u.CustomerId == claim.Value).ToListAsync();
-                
+
                 int count = 0;
 
                 foreach (var cartItem in lstShoppingCart)
@@ -76,6 +76,24 @@ namespace SA52T03_SWStore.Controllers
 
             homePageViewModel.Pager = new Pager(homePageViewModel.Product.Count(), page);
 
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (claim != null)
+            {
+
+                List<ShoppingCart> lstShoppingCart = await _db.ShoppingCart.Where(u => u.CustomerId == claim.Value).ToListAsync();
+
+                int count = 0;
+
+                foreach (var cartItem in lstShoppingCart)
+                {
+                    count += cartItem.Quantity;
+                }
+
+                HttpContext.Session.SetInt32("CartCount", count);
+            }
+
             ViewData["SearchResult"] = homePageViewModel.Product.Count() + " product(s) related to \"" + SearchString + "\"";
 
             return View("Index", homePageViewModel);
@@ -89,7 +107,7 @@ namespace SA52T03_SWStore.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> AddToCart(int id)
+        public async Task<IActionResult> AddToCart(int id, int page)
         {
 
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
@@ -120,7 +138,13 @@ namespace SA52T03_SWStore.Controllers
             }
             await _db.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+            int currentPage = page;
+            string currentSearch = HttpContext.Session.GetString("SearchString");
+
+            if (string.IsNullOrEmpty(currentSearch))
+                return RedirectToAction("Index", new { page = currentPage });
+            else 
+                return RedirectToAction("SearchResult", new { SearchString = currentSearch, page = currentPage });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

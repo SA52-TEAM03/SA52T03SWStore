@@ -38,7 +38,7 @@
                     </div>
                     <div class="card-footer bg-transparent border-0">
                         <p class="card-text">Price: $@product.Price</p>
-                        <a class="btn btn-primary" asp-action="AddToCart" asp-route-Id="@product.Id">Add to Cart</a>
+                        <a class="btn btn-primary" asp-action="AddToCart" asp-route-Id="@product.Id" asp-route-page=@Model.Pager.CurrentPage>Add to Cart</a>
                     </div>
                 </div>
             </div>
