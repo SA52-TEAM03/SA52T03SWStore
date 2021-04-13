@@ -9,7 +9,6 @@
         allOrder.Add(item);
         allOrder.Sort((a, b) => a.OrderDate.CompareTo(b.OrderDate));
         allOrder.Reverse();
-
     }
 }
 
@@ -20,18 +19,16 @@
     <input type="text" class="form-control " id="filterName" placeholder="Search" />
 </div>
 
-
-
 <table class="table" width="80%" align="center" cellpadding="30">
     @foreach (Order item in allOrder)
     {
         @foreach (OrderDetail orderdetail in item.OrderDetail)
         {
             <tr height="200px">
-                <td width="40%" >
+                <td width="40%">
                     <div style="border:1px solid #008cba; border-radius: 5px; height:180px">
                         <div align="center">
-                            <p align="center" ><img src="@orderdetail.Product.Image" width="80" height="80" /></p>
+                            <p align="center"><img src="@orderdetail.Product.Image" width="80" height="80" /></p>
                             <p class="card-title h5"><b style="color:#2c3e50">@orderdetail.Product.Name</b></p>
                             <p align="center" style=" font-size: 15px">@orderdetail.Product.Description</p>
                         </div>
@@ -43,11 +40,8 @@
                         <br />
                         <label class="col-sm-5"> Purchased On:</label>
                         <span class="col-sm-8"> @Html.DisplayFor(modelItem => item.OrderDate)</span>
-
-
-                        <label class="col-sm-5"> Purchased On:</label>
+                        <label class="col-sm-5"> Quantity:</label>
                         <span class="col-sm-8"> @Html.DisplayFor(modelItem => orderdetail.Quantity)</span>
-
                         <div class=" row">
                             <label class="col-sm-5"> &nbsp&nbsp&nbspActivation Code:</label>
                             <span class="col-sm-5">
@@ -56,7 +50,6 @@
                                     <select>
                                         @for (int i = 0; i < orderdetail.Quantity; i++)
                                         {
-
                                             <option>
                                                 @("O00" + orderdetail.Id)-@("P00"+orderdetail.ProductId)-@("N00"+i)
                                             </option>
@@ -67,8 +60,8 @@
                                 {
                                     <span>&nbsp&nbsp@("O00" + orderdetail.Id)-@("P00"+orderdetail.ProductId)-@(" "+"N00")</span>
                                 }
+                            </span>
                         </div>
-
                         <div>
                             <label class="col-sm-5"> Remaining Days:</label>
                             <span class="col-sm-8" id="RemainingDays">
@@ -83,14 +76,13 @@
                             </span>
 
                         </div>
+                    </div>
                 </td>
-
                 <td width="20%">
                     <br />
                     <br />
                     <div>
                         <button class="btn btn-link btn-outline-light col-sm-12" asp-controller="Product" asp-action="Index">Download</button>
-
                         <button class="btn btn-link btn-outline-light col-sm-12" asp-controller="Cart" asp-action="Index">Order Again</button>
                     </div>
                 </td>
