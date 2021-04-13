@@ -23,11 +23,12 @@ namespace SA52T03_SWStore.Controllers
         public async Task<IActionResult> Index()
         {
             string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var applicationDbContext = _context.Order.Where(j=>j.ApplicationUser.Id==userId)
+            var orderList = await _context.Order.Where(j=>j.ApplicationUser.Id==userId)
                 .Include(o => o.ApplicationUser)
                 .Include(e => e.OrderDetail)
-                .ThenInclude(s => s.Product);
-            return View(await applicationDbContext.ToListAsync());
+                .ThenInclude(s => s.Product)
+                .ToListAsync();
+            return View(orderList);
         }
     }
 }
