@@ -2,30 +2,43 @@
 
 @{
     ViewData["Title"] = "Home Page";
+
 }
 
 <div class="container">
     <div class="row align-items-center">
         <div class="col">
-            @if ((string)ViewData["Action"] == "Category")
-            {
-                <h3>Product - @ViewData["id"]</h3>
-            }
-            else
-            {
-                <h3>Product</h3>
-            }
+            <h3 class="d-inline">Product</h3>
+            <div class="dropdown show d-inline px-2">
+                <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @if ((string)ViewData["Action"] == "Category")
+                    {
+                        @ViewData["id"]
+                    }
+                    else
+                    {
+                        @:Category
+                    }
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" asp-action="Index" asp-controller="Home">All Product</a>
+                    @foreach (Category cat in Model.Category)
+                    {
+                        <a class="dropdown-item" asp-action="Category" asp-controller="Home" asp-route-id=@cat.Name>@cat.Name</a>
+                    }
+                </div>
+            </div>
+            </div>
+            <div class="col text-center">
+                @ViewData["SearchResult"]
+            </div>
+            <div class="col text-right">
+                <form asp-controller="Home" asp-action="SearchResult" method="get">
+                    <input type="text" placeholder="Search.." name="SearchString" />
+                    <input type="submit" value="Search" />
+                </form>
+            </div>
         </div>
-        <div class="col text-center">
-            @ViewData["SearchResult"]
-        </div>
-        <div class="col text-right">
-            <form asp-controller="Home" asp-action="SearchResult" method="get">
-                <input type="text" placeholder="Search.." name="SearchString" />
-                <input type="submit" value="Search" />
-            </form>
-        </div>
-    </div>
     <hr />
     <div class="row">
         @foreach (var product in Model.Product.Skip(Model.Pager.PageSize * (Model.Pager.CurrentPage - 1)).Take(Model.Pager.PageSize))
