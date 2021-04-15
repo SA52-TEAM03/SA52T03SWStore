@@ -10,30 +10,6 @@
         allOrder.Sort((a, b) => a.OrderDate.CompareTo(b.OrderDate));
         allOrder.Reverse();
     }
-    static string ACode(OrderDetail od, int i)
-    {
-        double n = od.OrderId + od.ProductId + od.Quantity + i;
-        double ac1 = od.OrderId / n;
-        double ac2 = od.ProductId / n;
-        double ac3 = od.Quantity / n;
-        for (int j = 0; j < od.OrderId; j++)
-        {
-            ac1 = 3.99 * ac1 * (1 - ac1);
-            ac3 = 3.99 * ac3 * (1 - ac3);
-        }
-        for (int j = 0; j < od.ProductId; j++)
-        {
-            ac1 = 3.98 * ac1 * (1 - ac1);
-            ac2 = 3.98 * ac2 * (1 - ac2);
-        }
-        for (int j = 0; j < od.Quantity; j++)
-        {
-            ac2 = 3.97 * ac2 * (1 - ac2);
-            ac3 = 3.97 * ac3 * (1 - ac3);
-        }
-        string s = ac1.ToString("0.00000").Substring(2, 5) + "-" + ac2.ToString("0.00000").Substring(2, 5) + "-" + ac3.ToString("0.00000").Substring(2, 5);
-        return s;
-    }
 }
 
 <h3>My Purchase</h3>
@@ -52,7 +28,7 @@
                 <td width="40%">
                     <div style="border:0px solid #008cba; border-radius: 5px; height:180px">
                         <div align="center">
-                            <p align="center"><img src="@orderdetail.Product.Image" width="80" height="80" style="margin-top:10px;"/></p>
+                            <p align="center"><img src="@orderdetail.Product.Image" width="80" height="80" style="margin-top:10px;" /></p>
                             <p class="card-title h5"><b style="color:#2c3e50">@orderdetail.Product.Name</b></p>
                             <p align="center" style=" font-size: 15px">@orderdetail.Product.Description</p>
                         </div>
@@ -86,10 +62,10 @@
                             <label class="col-sm-3"> Activation Code:</label>
                             <span class="col-sm-8">
                                 <select>
-                                    @for (int i = 0; i < orderdetail.Quantity; i++)
+                                    @foreach (ACode aCode in orderdetail.ACode)
                                     {
                                         <option>
-                                            @ACode(orderdetail, i)
+                                            @aCode.ACChain
                                         </option>
                                     }
                                 </select>

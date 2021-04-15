@@ -25,5 +25,12 @@ namespace SA52T03_SWStore.Models
 
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
+        public ICollection<ACode> ACode { get; set; }
+
+        public OrderDetail()
+        {
+            ACode = new List<ACode>();
+        }
+
     }
 }

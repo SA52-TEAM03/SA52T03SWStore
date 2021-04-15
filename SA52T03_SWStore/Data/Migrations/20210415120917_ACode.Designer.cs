@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SA52T03_SWStore.Data;
 
 namespace SA52T03_SWStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210415120917_ACode")]
+    partial class ACode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -234,9 +236,14 @@ namespace SA52T03_SWStore.Data.Migrations
                     b.Property<int>("OrderDetailId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("OrderDetailId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OrderDetailId");
+
+                    b.HasIndex("OrderDetailId1");
 
                     b.ToTable("ACode");
                 });
@@ -421,11 +428,15 @@ namespace SA52T03_SWStore.Data.Migrations
 
             modelBuilder.Entity("SA52T03_SWStore.Models.ACode", b =>
                 {
-                    b.HasOne("SA52T03_SWStore.Models.OrderDetail", "OrderDetail")
-                        .WithMany("ACode")
+                    b.HasOne("SA52T03_SWStore.Models.Category", "Category")
+                        .WithMany()
                         .HasForeignKey("OrderDetailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("SA52T03_SWStore.Models.OrderDetail", null)
+                        .WithMany("ACode")
+                        .HasForeignKey("OrderDetailId1");
                 });
 
             modelBuilder.Entity("SA52T03_SWStore.Models.Order", b =>

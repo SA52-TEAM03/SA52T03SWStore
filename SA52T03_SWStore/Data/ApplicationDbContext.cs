@@ -22,5 +22,7 @@ namespace SA52T03_SWStore.Data
         public DbSet<SA52T03_SWStore.Models.OrderDetail> OrderDetail { get; set; }
 
         public DbSet<SA52T03_SWStore.Models.ShoppingCart> ShoppingCart { get; set; }
+        public DbSet<SA52T03_SWStore.Models.ACode> ACode { get; set; }
+
     }
 }

@@ -24,9 +24,10 @@ namespace SA52T03_SWStore.Controllers
         {
             string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var orderList = await _context.Order.Where(j=>j.ApplicationUser.Id==userId)
-                .Include(o => o.ApplicationUser)
                 .Include(e => e.OrderDetail)
                 .ThenInclude(s => s.Product)
+                .Include(o=>o.OrderDetail)
+                .ThenInclude(j=>j.ACode)
                 .ToListAsync();
             return View(orderList);
         }
