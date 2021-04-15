@@ -24,7 +24,6 @@ namespace SA52T03_SWStore.Controllers
 
         public async Task<IActionResult> Index(int page = 1)
         {
-            HttpContext.Session.Remove("SearchString");
 
             HomePageViewModel homePageViewModel = new HomePageViewModel()
             {
@@ -52,7 +51,44 @@ namespace SA52T03_SWStore.Controllers
                 HttpContext.Session.SetInt32("CartCount", count);
             }
 
+            ViewData["Action"] = "Index";
+
             return View(homePageViewModel);
+        }
+
+        public async Task<IActionResult> Category(string id, int page = 1)
+        {
+
+            HomePageViewModel homePageViewModel = new HomePageViewModel()
+            {
+                Product = await _db.Product.Where(j => j.Category.Name == id).Include(m => m.Category).ToListAsync(),
+                Category = await _db.Category.ToListAsync()
+            };
+
+            homePageViewModel.Pager = new Pager(homePageViewModel.Product.Count(), page);
+
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (claim != null)
+            {
+
+                List<ShoppingCart> lstShoppingCart = await _db.ShoppingCart.Where(u => u.CustomerId == claim.Value).ToListAsync();
+
+                int count = 0;
+
+                foreach (var cartItem in lstShoppingCart)
+                {
+                    count += cartItem.Quantity;
+                }
+
+                HttpContext.Session.SetInt32("CartCount", count);
+            }
+
+            ViewData["Action"] = "Category";
+            ViewData["id"] = id;
+
+            return View("Index", homePageViewModel);
         }
 
         public async Task<IActionResult> SearchResult(string SearchString, int page)
@@ -60,12 +96,6 @@ namespace SA52T03_SWStore.Controllers
             if (SearchString == null)
             {
                 return RedirectToAction("Index");
-            }
-
-            if (SearchString != HttpContext.Session.GetString("SearchString"))
-            {
-                page = 1;
-                HttpContext.Session.SetString("SearchString", SearchString);
             }
                 
             HomePageViewModel homePageViewModel = new HomePageViewModel()
@@ -94,20 +124,22 @@ namespace SA52T03_SWStore.Controllers
                 HttpContext.Session.SetInt32("CartCount", count);
             }
 
+            ViewData["Action"] = "CurrentSearch";
+            ViewData["id"] = SearchString;
             ViewData["SearchResult"] = homePageViewModel.Product.Count() + " product(s) related to \"" + SearchString + "\"";
 
             return View("Index", homePageViewModel);
         }
 
-        public IActionResult CurrentSearch(int page)
+        public IActionResult CurrentSearch(string id, int page)
         {
-            string currentSearch = HttpContext.Session.GetString("SearchString");
+            string currentSearch = id;
             int currentPage = page;
             return RedirectToAction("SearchResult", new { SearchString = currentSearch, page = currentPage });
         }
 
         [Authorize]
-        public async Task<IActionResult> AddToCart(int id, int page)
+        public async Task<IActionResult> AddToCart(int id, int page, string currentaction, string actiondata)
         {
 
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
@@ -139,12 +171,19 @@ namespace SA52T03_SWStore.Controllers
             await _db.SaveChangesAsync();
 
             int currentPage = page;
-            string currentSearch = HttpContext.Session.GetString("SearchString");
 
-            if (string.IsNullOrEmpty(currentSearch))
-                return RedirectToAction("Index", new { page = currentPage });
-            else 
-                return RedirectToAction("SearchResult", new { SearchString = currentSearch, page = currentPage });
+            switch (currentaction)
+            {
+                case "Index":
+                    return RedirectToAction("Index", new { page = currentPage });
+                case "CurrentSearch":
+                    return RedirectToAction("SearchResult", new { SearchString = actiondata, page = currentPage });
+                case "Category":
+                    return RedirectToAction("Category", new { id = actiondata, page = currentPage });
+                default:
+                    return RedirectToAction("Index", new { page = currentPage });
+            }
+
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

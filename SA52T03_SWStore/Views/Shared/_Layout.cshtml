@@ -29,6 +29,19 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
 
+                        <li class="nav-item dropdown text-white-50">
+                            <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Product
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+                                <a class="dropdown-item" asp-action="Index" asp-controller="Home">All Product</a>
+                                <a class="dropdown-item" asp-action="Category" asp-controller="Home" asp-route-id="Game">Game</a>
+                                <a class="dropdown-item" asp-action="Category" asp-controller="Home" asp-route-id="Media">Media</a>
+                                <a class="dropdown-item" asp-action="Category" asp-controller="Home" asp-route-id="Productivity">Productivity</a>
+                                <a class="dropdown-item" asp-action="Category" asp-controller="Home" asp-route-id="Security">Security</a>
+                            </div>
+                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="OrderHistory" asp-action="Index">Order History</a>
                         </li>
@@ -46,10 +59,10 @@
                                     }
 
                                     <span class="badge badge-light">(@count)</span>
-                                }                               
+                                }
 
                             </a>
-                        </li>                                                             
+                        </li>
 
 
                         @if (User.IsInRole("Admin"))
