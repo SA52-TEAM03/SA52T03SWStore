@@ -22,7 +22,7 @@ namespace SA52T03_SWStore.Controllers
             _db = db;
         }
 
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(int page=1)
         {
 
             HomePageViewModel homePageViewModel = new HomePageViewModel()
@@ -52,6 +52,11 @@ namespace SA52T03_SWStore.Controllers
             }
 
             ViewData["Action"] = "Index";
+            
+            if (page == 0)
+            {
+                return RedirectToAction("Index", "OrderHistory");
+            }
 
             return View(homePageViewModel);
         }
@@ -97,7 +102,7 @@ namespace SA52T03_SWStore.Controllers
             {
                 return RedirectToAction("Index");
             }
-                
+
             HomePageViewModel homePageViewModel = new HomePageViewModel()
             {
                 Product = await _db.Product.Where(j => j.Name.Contains(SearchString) || j.Description.Contains(SearchString)).Include(m => m.Category).ToListAsync(),

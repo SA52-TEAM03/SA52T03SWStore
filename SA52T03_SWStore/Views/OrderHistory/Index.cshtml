@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SA52T03_SWStore.Models.Order>
+﻿@model IEnumerable<SA52T03_SWStore.Models.Order>;
 
 @{
     ViewData["Title"] = "My Purchase";
@@ -37,33 +37,16 @@
 
                 <td>
                     <div>
-                        <br />
-                        <label class="col-sm-5"> Purchased On:</label>
-                        <span class="col-sm-8"> @Html.DisplayFor(modelItem => item.OrderDate)</span>
-                        <label class="col-sm-5"> Quantity:</label>
-                        <span class="col-sm-8"> @Html.DisplayFor(modelItem => orderdetail.Quantity)</span>
                         <div class=" row">
-                            <label class="col-sm-5"> &nbsp&nbsp&nbspActivation Code:</label>
-                            <span class="col-sm-5">
-                                @if (orderdetail.Quantity > 1)
-                                {
-                                    <select>
-                                        @for (int i = 0; i < orderdetail.Quantity; i++)
-                                        {
-                                        <option>
-                                            @Guid.NewGuid().ToString()
-                                        </option>
-                                        }
-                                    </select>
-                                }
-                                else
-                                {
-                                    <span>&nbsp&nbsp @Guid.NewGuid().ToString()</span>
-                                }
-                            </span>
+                            <label class="col-sm-3"> Purchased On:</label>
+                            <span class="col-sm-8"> @Html.DisplayFor(modelItem => item.OrderDate)</span>
                         </div>
-                        <div>
-                            <label class="col-sm-5"> Remaining Days:</label>
+                        <div class=" row">
+                            <label class="col-sm-3"> Quantity:</label>
+                            <span class="col-sm-8"> @Html.DisplayFor(modelItem => orderdetail.Quantity)</span>
+                        </div>
+                        <div class=" row">
+                            <label class="col-sm-3"> Remaining Days:</label>
                             <span class="col-sm-8" id="RemainingDays">
                                 @if (((DateTime.Now).Subtract(item.OrderDate)).Days < 365)
                                 {
@@ -74,16 +57,30 @@
                                     <span>0</span>
                                 }
                             </span>
-
                         </div>
-                    </div>
-                </td>
-                <td width="20%">
-                    <br />
-                    <br />
-                    <div>
-                        <button class="btn btn-link btn-outline-light col-sm-12" asp-controller="Product" asp-action="Index">Download</button>
-                        <button class="btn btn-link btn-outline-light col-sm-12" asp-controller="Cart" asp-action="Index">Order Again</button>
+                        <div class=" row">
+                            <label class="col-sm-3"> Activation Code:</label>
+                            <span class="col-sm-8">
+                                @if (orderdetail.Quantity > 1)
+                                {
+                                    <select>
+                                        @for (int i = 0; i < orderdetail.Quantity; i++)
+                                        {
+                                            <option>
+                                                @Guid.NewGuid().ToString()
+                                            </option>
+                                        }
+                                    </select>
+                                }
+                                else
+                                {
+                                    <span>@Guid.NewGuid().ToString()</span>
+                                }
+                            </span>
+                        </div>
+                        <div>
+                            <a class="btn btn-link btn-outline-light col-sm-4" style="float:right" asp-action="AddToCart" asp-controller="Home" asp-route-Id="@orderdetail.Product.Id" asp-route-page="0">Order Again</a>
+                        </div>
                     </div>
                 </td>
             </tr>
