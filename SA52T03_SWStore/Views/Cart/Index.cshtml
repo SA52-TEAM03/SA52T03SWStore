@@ -117,38 +117,45 @@
 <hr />
 
 
-<table class="table1">
-    @for (int i = 0; i < shoppingCarts.Count(); i++)
-    {
+@if (Model.Count() > 0)
+{
+    @:<table class="table1">
+        @for (int i = 0; i < shoppingCarts.Count(); i++)
+        {
 
-        @:<tr>
-            @:<td>
-                @:<img class="productImages" id="productImages[i]" src="@shoppingCarts[i].Product.Image" width="60" height="70" />
-            @:</td>
-            @:<td style="width:350px; padding-left:30px;">
-                <p class="itemName">@shoppingCarts[i].Product.Name</p>
-            @:</td>
-            @:<td style="padding-right:30px;">
-                <p class="itemPrice">$ @string.Format("{0:f}", shoppingCarts[i].Product.Price)</p>
-            @:</td>
-            @:<td style="padding-bottom: 45px;">
-                <a class="addBtn" name="button" id="addBtn1" asp-action="Add" asp-route-Id="@shoppingCarts[i].Product.Id">
-                    <img src="https://user-images.githubusercontent.com/78943219/114554716-9a71a300-9c99-11eb-91d9-55dd636dfebd.png"
-                         alt="Add" />
-                </a>
-            @:</td>
-            @:<td>
-                <p class="item_qty">@shoppingCarts[i].Quantity</p>
-            @:</td>
-            @:<td style="padding-bottom: 45px;">
-                <a class="minusBtn" name="button2" id="MinusBtn1" asp-action="Deduce" asp-route-Id="@shoppingCarts[i].Product.Id">
-                    <img src="https://user-images.githubusercontent.com/78943219/114554781-a8bfbf00-9c99-11eb-83f2-44297681f642.png"
-                         alt="Minus" />
-                </a>
-            @:</td>
-        @:</tr>
-    }
-</table>
+            @:<tr>
+                @:<td>
+                    @:<img class="productImages" id="productImages[i]" src="@shoppingCarts[i].Product.Image" width="60" height="70" />
+                @:</td>
+                @:<td style="width:350px; padding-left:30px;">
+                    <p class="itemName">@shoppingCarts[i].Product.Name</p>
+                @:</td>
+                @:<td style="padding-right:30px;">
+                    <p class="itemPrice">$ @string.Format("{0:f}", shoppingCarts[i].Product.Price)</p>
+                @:</td>
+                @:<td style="padding-bottom: 45px;">
+                    <a class="addBtn" name="button" id="addBtn1" asp-action="Add" asp-route-Id="@shoppingCarts[i].Product.Id">
+                        <img src="https://user-images.githubusercontent.com/78943219/114554716-9a71a300-9c99-11eb-91d9-55dd636dfebd.png"
+                             alt="Add" />
+                    </a>
+                @:</td>
+                @:<td>
+                    <p class="item_qty">@shoppingCarts[i].Quantity</p>
+                @:</td>
+                @:<td style="padding-bottom: 45px;">
+                    <a class="minusBtn" name="button2" id="MinusBtn1" asp-action="Deduce" asp-route-Id="@shoppingCarts[i].Product.Id">
+                        <img src="https://user-images.githubusercontent.com/78943219/114554781-a8bfbf00-9c99-11eb-83f2-44297681f642.png"
+                             alt="Minus" />
+                    </a>
+                @:</td>
+            @:</tr>
+        }
+    @:</table>
+}
+@if (Model.Count() == 0)
+{
+    <p>Shopping Cart is empty! Click Continue Shopping and Add Items to Cart!</p>
+}
 <table class="table2">
     <tr>
         <td width="150px">
