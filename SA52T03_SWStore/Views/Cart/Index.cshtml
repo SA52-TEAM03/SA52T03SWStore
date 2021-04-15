@@ -60,23 +60,28 @@
     }
 
     .buttonCart {
-        background-color: white;
-        border: 2px outset #08285F;
+        background-color: #256DD8;
+        border: 2px outset white;
         border-radius: 12px;
-        color: #08285F;
+        color: white;
         font-family: fordAntenna, Helvetica, Courier;
-        font-size: 10pt;
-        padding: 5px 5px;
+        font-size: 16pt;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 20px;
+        padding-bottom: 20px;
         margin-left: auto;
-        margin-right: 115px;
+        margin-right: auto;
         transition: all 0.3s ease-in-out;
-        height: 40px;
+        height: auto;
+        width: 200px;
     }
 
         .buttonCart:hover {
-            background-color: #08285F;
-            border: 2px inset #08285F;
+            background-color: #00b01f;
+            border: 2px inset white;
             color: white;
+            font-weight: bold;
         }
 
     .addBtn, .minusBtn, .removeBtn {
@@ -105,7 +110,8 @@
     }
 
     .table2 {
-        margin-left: 80px;
+        margin: auto;
+        width: 750px;
     }
 </style>
 <div class="row align-items-center">
@@ -167,10 +173,10 @@
 <table class="table2">
     <tr>
         <td>
-            <a asp-controller="Home" asp-action="Index"><input type="button" id="Continue_Shopping" class="buttonCart" value="Continue Shopping" /></a>
+            <a asp-controller="Home" asp-action="Index"><p style="font-size: 16pt;">Continue Shopping</p></a>
         </td>
-        <td style="padding-left: 400px;">
-            <a asp-controller="Cart" asp-action="CheckOut"><input type="button" id="Checkout" class="buttonCart" value="Checkout Now" /></a>
+        <td style="float:right;">
+            <a asp-controller="Cart" asp-action="CheckOut"><input type="button" id="Checkout" style="float:right;" class="buttonCart" value="Checkout Now" /></a>
         </td>
     </tr>
 </table>

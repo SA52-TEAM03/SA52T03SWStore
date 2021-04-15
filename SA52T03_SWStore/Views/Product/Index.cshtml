@@ -3,12 +3,38 @@
 @{
     ViewData["Title"] = "Index";
 }
+<style>
+    .createBtn {
+        margin-bottom: 20px;
+        margin-top: 20px;
+        transition: all 0.3s ease-in-out;
+        vertical-align: auto;
+        text-align: center;
+        width: 250px;
+    }
+        .createBtn:hover {
+            background-color: #00b01f;
+        }
+    a {
+        vertical-align: middle;
+    }
 
+    .nowebkit:hover {
+        text-decoration: none;
+    }
+    .p1 {
+        color: white;
+        vertical-align: middle;
+        font-size: 16pt;
+        padding-top: 5px;
+        margin-bottom: 5px;
+    }
+</style>
 <h1>Product List</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<button class="btn btn-primary createBtn">
+    <a class="nowebkit" asp-action="Create"><p class="p1">Create New</p></a>
+</button>
 <table class="table">
     <thead>
         <tr>
