@@ -43,16 +43,16 @@
     <input type="text" class="form-control " id="filterName" placeholder="Search" />
 </div>
 
-<table class="table" width="80%" align="center" cellpadding="30">
+<table class="table" width="80%" align="center" cellpadding="30" style="margin-bottom:50px; margin-top:40px;">
     @foreach (Order item in allOrder)
     {
         @foreach (OrderDetail orderdetail in item.OrderDetail)
         {
             <tr height="200px">
                 <td width="40%">
-                    <div style="border:1px solid #008cba; border-radius: 5px; height:180px">
+                    <div style="border:0px solid #008cba; border-radius: 5px; height:180px">
                         <div align="center">
-                            <p align="center"><img src="@orderdetail.Product.Image" width="80" height="80" /></p>
+                            <p align="center"><img src="@orderdetail.Product.Image" width="80" height="80" style="margin-top:10px;"/></p>
                             <p class="card-title h5"><b style="color:#2c3e50">@orderdetail.Product.Name</b></p>
                             <p align="center" style=" font-size: 15px">@orderdetail.Product.Description</p>
                         </div>
