@@ -105,7 +105,7 @@ namespace SA52T03_SWStore.Controllers
 
             HomePageViewModel homePageViewModel = new HomePageViewModel()
             {
-                Product = await _db.Product.Where(j => j.Name.Contains(SearchString) || j.Description.Contains(SearchString)).Include(m => m.Category).ToListAsync(),
+                Product = await _db.Product.Where(j => j.Name.Contains(SearchString) || j.Description.Contains(SearchString) || j.Category.Name.Contains(SearchString)).Include(m => m.Category).ToListAsync(),
                 Category = await _db.Category.ToListAsync()
             };
 
