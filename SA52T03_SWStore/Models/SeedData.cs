@@ -181,7 +181,7 @@ namespace SA52T03_SWStore.Models
                         Description = "Best-selling productivity software for students and home users",
                         Price = 229,
                         Image = "/images/17_product.png",
-                        CategoryId = 2
+                        CategoryId = 3
                     },
 
                     new Product
@@ -190,7 +190,7 @@ namespace SA52T03_SWStore.Models
                         Description = "Productivity tool for home users",
                         Price = 179,
                         Image = "/images/18_product.png",
-                        CategoryId = 2
+                        CategoryId = 3
                     },
 
                     new Product
@@ -199,7 +199,7 @@ namespace SA52T03_SWStore.Models
                         Description = "Project management visualisation tool for scheduling and tracking of project milestones, project costs and activity lists",
                         Price = 2199,
                         Image = "/images/19_product.png",
-                        CategoryId = 2
+                        CategoryId = 3
                     },
 
                     new Product
@@ -208,7 +208,7 @@ namespace SA52T03_SWStore.Models
                         Description = "Integrated Design Environment for enterprise developers",
                         Price = 68,
                         Image = "/images/20_product.png",
-                        CategoryId = 2
+                        CategoryId = 3
                     },
 
                     new Product
