@@ -161,22 +161,37 @@
 @if (Model.Count() == 0)
 {
     <p>Shopping Cart is empty! Click Continue Shopping and Add Items to Cart!</p>
-}
-<table class="table2">
-    <tr>
-        <td width="150px">
-            <p><b>TOTAL PRICE: </b></p><input style="width:200px; border: 0px; font-weight: bold; font-size:x-large;" type="text" id="totalPrice" value=$@totalprice readonly />
-        </td>
-    </tr>
-</table>
 
-<table class="table2">
-    <tr>
-        <td>
-            <a asp-controller="Home" asp-action="Index"><p style="font-size: 16pt;">Continue Shopping</p></a>
-        </td>
-        <td style="float:right;">
-            <a asp-controller="Cart" asp-action="CheckOut"><input type="button" id="Checkout" style="float:right;" class="buttonCart" value="Checkout Now" /></a>
-        </td>
-    </tr>
-</table>
+    <br />
+    <br />
+    <table class="table2">
+        <tr>
+            <td style="float:right;">
+                <a asp-controller="Home" asp-action="Index"><input type="button" id="ContinueShopping" style="float:right; width: 300px;" class="buttonCart" value="Continue Shopping" /></a>
+            </td>
+        </tr>
+    </table>
+
+}
+else
+{
+    <table class="table2">
+        <tr>
+            <td width="150px">
+                <p><b>TOTAL PRICE: </b></p><input style="width:200px; border: 0px; font-weight: bold; font-size:x-large;" type="text" id="totalPrice" value=$@totalprice readonly />
+            </td>
+        </tr>
+    </table>
+    <table class="table2">
+        <tr>
+            <td>
+                <a asp-controller="Home" asp-action="Index"><p style="font-size: 16pt;">Continue Shopping</p></a>
+            </td>
+            <td style="float:right;">
+                <a asp-controller="Cart" asp-action="CheckOut"><input type="button" id="Checkout" style="float:right;" class="buttonCart" value="Checkout Now" /></a>
+            </td>
+        </tr>
+    </table>
+}
+
+
