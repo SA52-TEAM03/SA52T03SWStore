@@ -10,6 +10,30 @@
         allOrder.Sort((a, b) => a.OrderDate.CompareTo(b.OrderDate));
         allOrder.Reverse();
     }
+    static string ACode(OrderDetail od, int i)
+    {
+        double n = od.OrderId + od.ProductId + od.Quantity + i;
+        double ac1 = od.OrderId / n;
+        double ac2 = od.ProductId / n;
+        double ac3 = od.Quantity / n;
+        for (int j = 0; j < od.OrderId; j++)
+        {
+            ac1 = 3.99 * ac1 * (1 - ac1);
+            ac3 = 3.99 * ac3 * (1 - ac3);
+        }
+        for (int j = 0; j < od.ProductId; j++)
+        {
+            ac1 = 3.98 * ac1 * (1 - ac1);
+            ac2 = 3.98 * ac2 * (1 - ac2);
+        }
+        for (int j = 0; j < od.Quantity; j++)
+        {
+            ac2 = 3.97 * ac2 * (1 - ac2);
+            ac3 = 3.97 * ac3 * (1 - ac3);
+        }
+        string s = ac1.ToString("0.00000").Substring(2, 5) + "-" + ac2.ToString("0.00000").Substring(2, 5) + "-" + ac3.ToString("0.00000").Substring(2, 5);
+        return s;
+    }
 }
 
 <h3>My Purchase</h3>
@@ -61,21 +85,14 @@
                         <div class=" row">
                             <label class="col-sm-3"> Activation Code:</label>
                             <span class="col-sm-8">
-                                @if (orderdetail.Quantity > 1)
-                                {
-                                    <select>
-                                        @for (int i = 0; i < orderdetail.Quantity; i++)
-                                        {
-                                            <option>
-                                                @Guid.NewGuid().ToString()
-                                            </option>
-                                        }
-                                    </select>
-                                }
-                                else
-                                {
-                                    <span>@Guid.NewGuid().ToString()</span>
-                                }
+                                <select>
+                                    @for (int i = 0; i < orderdetail.Quantity; i++)
+                                    {
+                                        <option>
+                                            @ACode(orderdetail, i)
+                                        </option>
+                                    }
+                                </select>
                             </span>
                         </div>
                         <div>
