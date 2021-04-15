@@ -22,7 +22,7 @@ namespace SA52T03_SWStore.Controllers
             _db = db;
         }
 
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(int page=1)
         {
             HttpContext.Session.Remove("SearchString");
 
@@ -52,6 +52,11 @@ namespace SA52T03_SWStore.Controllers
                 HttpContext.Session.SetInt32("CartCount", count);
             }
 
+            if (page == 0)
+            {
+                return RedirectToAction("Index", "OrderHistory");
+            }
+
             return View(homePageViewModel);
         }
 
@@ -67,7 +72,7 @@ namespace SA52T03_SWStore.Controllers
                 page = 1;
                 HttpContext.Session.SetString("SearchString", SearchString);
             }
-                
+
             HomePageViewModel homePageViewModel = new HomePageViewModel()
             {
                 Product = await _db.Product.Where(j => j.Name.Contains(SearchString) || j.Description.Contains(SearchString)).Include(m => m.Category).ToListAsync(),
@@ -142,9 +147,10 @@ namespace SA52T03_SWStore.Controllers
             string currentSearch = HttpContext.Session.GetString("SearchString");
 
             if (string.IsNullOrEmpty(currentSearch))
-                return RedirectToAction("Index", new { page = currentPage });
-            else 
+                    return RedirectToAction("Index", new { page = currentPage });
+            else
                 return RedirectToAction("SearchResult", new { SearchString = currentSearch, page = currentPage });
+
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
