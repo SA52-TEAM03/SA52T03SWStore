@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace SA52T03_SWStore.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -29,7 +30,7 @@ namespace SA52T03_SWStore.Controllers
             return View(shoppingCartItems);
         }
 
-        [Authorize]
+        
         public async Task<IActionResult> CheckOut()
         {
             string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
