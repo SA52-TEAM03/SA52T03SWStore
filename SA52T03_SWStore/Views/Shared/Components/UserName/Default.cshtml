@@ -1,2 +1,12 @@
 ﻿@model SA52T03_SWStore.Models.ApplicationUser
-Hello, @Model.Name
+
+@if(Model==null)
+{
+    <script>
+        alert("You need to logout first to clear previous session!")
+    </script>
+}else
+{
+    @:Hello, @Model.Name
+}
+
