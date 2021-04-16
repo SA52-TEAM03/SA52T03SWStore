@@ -18,6 +18,20 @@
             background-color: #00b01f;
             font-weight: bolder;
         }
+
+
+ .badge{
+     font-size: 14px !important;
+     
+ }   
+
+ .badge_container{
+     position: absolute;
+     left: 10px;
+     top: 10px;
+     opacity: 0.5;
+ }
+
 </style>
 <div class="container">
     <div class="row align-items-center">
@@ -59,7 +73,13 @@
         {
             <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
                 <div class="card h-100 border-dark">
+                    
                     <img src="@product.Image" class="card-img-top align-self-center p-1" style="height:150px; width:auto; margin-top: 10px;" />
+
+                    <div class="badge_container">
+                        <span class="badge badge-pill badge-dark">@product.Category.Name</span>
+                    </div>                      
+                   
                     <div class="card-body" style="margin-top: 10px;">
                         <h5 class="card-title" style="font-size: xx-large;">@product.Name</h5>
                         <p class="card-text">@product.Description</p>
