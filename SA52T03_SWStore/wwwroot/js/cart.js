@@ -47,8 +47,8 @@ function onClick2(event) {
                 document.getElementById("table1").deleteRow(row);
             }
             if (document.getElementById("table1").rows.length == 0) {
-                document.getElementById("cartlist").innerHTML = "<p>Shopping Cart is empty! Click Continue Shopping and Add Items to Cart!</p>";
-                document.getElementById("price").innerHTML = "";
+                document.getElementById("cart").innerHTML = "";
+                window.location = "/Cart/Index";
             }
         }
     };
