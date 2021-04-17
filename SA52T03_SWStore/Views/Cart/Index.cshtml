@@ -122,7 +122,8 @@
 
 @if (Model.Count() > 0)
 {
-    @:<table class="table1">
+<div id="cartlist">
+    <table id ="table1" class="table1">
         @for (int i = 0; i < shoppingCarts.Count(); i++)
         {
 
@@ -137,17 +138,18 @@
                     <p class="itemPrice">$ @string.Format("{0:f}", shoppingCarts[i].Product.Price)</p>
                 @:</td>
                 @:<td style="padding-bottom: 45px;">
-                        <img src="~/images/plus.png" class=" AddToCart" productId="@shoppingCarts[i].Product.Id"/>
+                    <img src="~/images/plus.png" class=" AddToCart" productId="@shoppingCarts[i].Product.Id" />
                 @:</td>
                 @:<td>
-                    <p class="item_qty" id="@shoppingCarts[i].Product.Id" >@shoppingCarts[i].Quantity</p>
+                    <p class="item_qty" id="@shoppingCarts[i].Product.Id">@shoppingCarts[i].Quantity</p>
                 @:</td>
                 @:<td style="padding-bottom: 45px;">
-                        <img src="~/images/minus.png" class="DeduceFromCart" productId="@shoppingCarts[i].Product.Id" />
+                    <img src="~/images/minus.png" class="DeduceFromCart" productId="@shoppingCarts[i].Product.Id" />
                 @:</td>
             @:</tr>
         }
-    @:</table>
+    </table>
+</div>
 }
 @if (Model.Count() == 0)
 {
@@ -166,6 +168,7 @@
 }
 else
 {
+<div id="price">
     <table class="table2">
         <tr>
             <td width="150px">
@@ -173,6 +176,7 @@ else
             </td>
         </tr>
     </table>
+</div>
     <table class="table2">
         <tr>
             <td>

@@ -29,14 +29,30 @@ function onClick1(event) {
 function onClick2(event) {
     let elem = event.currentTarget;
     let productid = elem.getAttribute("productId");
+    let row = elem.parentNode.parentNode.rowIndex;
+
+
     let xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
             let data = JSON.parse(this.responseText);
             elem.innerHTML = data.message;
-            document.getElementById("shoppingCartCount").innerHTML = "<span class=\"notify-badge\">" + data.count + "</span>";
             document.getElementById(productid).innerHTML = data.productCount;
+
+            if (data.count == 0)
+                document.getElementById("shoppingCartCount").innerHTML = "";
+            else
+                document.getElementById("shoppingCartCount").innerHTML = "<span class=\"notify-badge\">" + data.count + "</span>";           
+
+            if (data.productCount == 0) {
+                document.getElementById("table1").deleteRow(row);
+            }
+            if (document.getElementById("table1").rows.length == 0) {
+                document.getElementById("cartlist").innerHTML = "<p>Shopping Cart is empty! Click Continue Shopping and Add Items to Cart!</p>";
+                document.getElementById("price").innerHTML = "";
+
+            }
 
         }
     };
