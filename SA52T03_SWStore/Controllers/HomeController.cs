@@ -128,7 +128,8 @@ namespace SA52T03_SWStore.Controllers
             HttpContext.Session.SetInt32("CartCount", count);
             string totalprice = TotalPrice(_db, claim.Value);
 
-            return Json(new { message = "Add Success", count, productCount, totalprice });
+
+            return Json(new { count, productCount, totalprice });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
