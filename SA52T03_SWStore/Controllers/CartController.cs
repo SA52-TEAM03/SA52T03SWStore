@@ -73,7 +73,6 @@ namespace SA52T03_SWStore.Controllers
         public IActionResult Deduce(int id)
         {
             string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             ShoppingCart shoppingCartItem = _context.ShoppingCart.Where(j => j.CustomerId == userId && j.ProductId == id).FirstOrDefault();
 
             int productCount = 0;
@@ -87,13 +86,13 @@ namespace SA52T03_SWStore.Controllers
                 shoppingCartItem.Quantity--;
                 productCount = shoppingCartItem.Quantity;
             }
-
             _context.SaveChanges();
 
+            string totalprice = HomeController.TotalPrice(_context, userId);
             int count = HomeController.shoppingCartCount(_context, userId);
             HttpContext.Session.SetInt32("CartCount", count);
 
-            return Json(new { message = "Add Success", count, productCount });
+            return Json(new { totalprice, count, productCount });
         }
 
         public static string AcChain(OrderDetail od, int i)

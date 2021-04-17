@@ -112,6 +112,7 @@
         width: 750px;
     }
 </style>
+
 <div class="row align-items-center">
     <div class="col">
         <h3>Shopping Cart</h3>
@@ -122,34 +123,34 @@
 
 @if (Model.Count() > 0)
 {
-<div id="cartlist">
-    <table id ="table1" class="table1">
-        @for (int i = 0; i < shoppingCarts.Count(); i++)
-        {
+    <div id="cartlist">
+        <table id="table1" class="table1">
+            @for (int i = 0; i < shoppingCarts.Count(); i++)
+            {
 
-            @:<tr>
-                @:<td>
-                    @:<img class="productImages" id="productImages[i]" src="@shoppingCarts[i].Product.Image" width="60" height="70" />
-                @:</td>
-                @:<td style="width:350px; padding-left:30px;">
-                    <p class="itemName">@shoppingCarts[i].Product.Name</p>
-                @:</td>
-                @:<td style="padding-right:30px;">
-                    <p class="itemPrice">$ @string.Format("{0:f}", shoppingCarts[i].Product.Price)</p>
-                @:</td>
-                @:<td style="padding-bottom: 45px;">
-                    <img src="~/images/plus.png" class=" AddToCart" productId="@shoppingCarts[i].Product.Id" />
-                @:</td>
-                @:<td>
-                    <p class="item_qty" id="@shoppingCarts[i].Product.Id">@shoppingCarts[i].Quantity</p>
-                @:</td>
-                @:<td style="padding-bottom: 45px;">
-                    <img src="~/images/minus.png" class="DeduceFromCart" productId="@shoppingCarts[i].Product.Id" />
-                @:</td>
-            @:</tr>
-        }
-    </table>
-</div>
+                @:<tr>
+                    @:<td>
+                        @:<img class="productImages" id="productImages[i]" src="@shoppingCarts[i].Product.Image" width="60" height="70" />
+                    @:</td>
+                    @:<td style="width:350px; padding-left:30px;">
+                        <p class="itemName">@shoppingCarts[i].Product.Name</p>
+                    @:</td>
+                    @:<td style="padding-right:30px;">
+                        <p class="itemPrice">$ @string.Format("{0:f}", shoppingCarts[i].Product.Price)</p>
+                    @:</td>
+                    @:<td style="padding-bottom: 45px;">
+                        <img src="~/images/plus.png" class=" AddToCart" productId="@shoppingCarts[i].Product.Id" />
+                    @:</td>
+                    @:<td>
+                        <p class="item_qty" id="@shoppingCarts[i].Product.Id">@shoppingCarts[i].Quantity</p>
+                    @:</td>
+                    @:<td style="padding-bottom: 45px;">
+                        <img src="~/images/minus.png" class="DeduceFromCart" productId="@shoppingCarts[i].Product.Id" />
+                    @:</td>
+                @:</tr>
+            }
+        </table>
+    </div>
 }
 @if (Model.Count() == 0)
 {
@@ -168,15 +169,15 @@
 }
 else
 {
-<div id="price">
-    <table class="table2">
-        <tr>
-            <td width="150px">
-                <p><b>TOTAL PRICE: </b></p><input style="width:200px; border: 0px; font-weight: bold; font-size:x-large;" type="text" id="totalPrice" value=$@totalprice readonly />
-            </td>
-        </tr>
-    </table>
-</div>
+    <div id="price">
+        <table class="table2">
+            <tr>
+                <td width="150px">
+                    <p><b>TOTAL PRICE: </b></p><input style="width:200px; border: 0px; font-weight: bold; font-size:x-large;" type="text" id="totalPrice" value=$@totalprice />
+                </td>
+            </tr>
+        </table>
+    </div>
     <table class="table2">
         <tr>
             <td>

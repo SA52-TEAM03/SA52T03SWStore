@@ -110,8 +110,8 @@ namespace SA52T03_SWStore.Controllers
 
             ShoppingCart cartFromDb = _db.ShoppingCart.Where(c => c.CustomerId == shoppingCart.CustomerId
                                                && c.ProductId == shoppingCart.ProductId).FirstOrDefault();
-            
-            int productCount=0;
+
+            int productCount = 0;
             if (cartFromDb == null)
             {
                 _db.ShoppingCart.Add(shoppingCart);
@@ -122,13 +122,13 @@ namespace SA52T03_SWStore.Controllers
                 cartFromDb.Quantity++;
                 productCount = cartFromDb.Quantity;
             }
-
             _db.SaveChanges();
 
             int count = shoppingCartCount(_db, claim.Value);
             HttpContext.Session.SetInt32("CartCount", count);
+            string totalprice = TotalPrice(_db, claim.Value);
 
-            return Json(new { message = "Add Success", count, productCount });
+            return Json(new { message = "Add Success", count, productCount, totalprice });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -148,6 +148,18 @@ namespace SA52T03_SWStore.Controllers
                 count += cartItem.Quantity;
             }
             return count;
+        }
+
+        public static string TotalPrice(ApplicationDbContext db, string CustomerId)
+        {
+            List<ShoppingCart> shoppingCartItems = db.ShoppingCart.Where(u => u.CustomerId == CustomerId).Include(e => e.Product).ToList();
+            double total = 0;
+            foreach (ShoppingCart shoppingCart in shoppingCartItems)
+            {
+                total += shoppingCart.Product.Price * shoppingCart.Quantity;
+            }
+            string totalprice = "$" + string.Format("{0:f}", total);
+            return totalprice;
         }
     }
 }

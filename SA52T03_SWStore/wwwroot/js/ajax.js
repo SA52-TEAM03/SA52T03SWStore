@@ -18,6 +18,7 @@ function onClick1(event) {
             elem.innerHTML = data.message;
             document.getElementById("shoppingCartCount").innerHTML = "<span class=\"notify-badge\">"+data.count+"</span>";
             document.getElementById(productid).innerHTML = data.productCount;
+            document.getElementById("totalPrice").value = data.totalprice;
         }
     };
 
@@ -37,8 +38,8 @@ function onClick2(event) {
     xhr.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
             let data = JSON.parse(this.responseText);
-            elem.innerHTML = data.message;
             document.getElementById(productid).innerHTML = data.productCount;
+            document.getElementById("totalPrice").value = data.totalprice;
 
             if (data.count == 0)
                 document.getElementById("shoppingCartCount").innerHTML = "";
