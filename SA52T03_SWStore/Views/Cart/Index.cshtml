@@ -7,9 +7,7 @@
     {
         total += shoppingCart.Product.Price * shoppingCart.Quantity;
     }
-
     string totalprice = string.Format("{0:f}", total);
-
 }
 <style>
     * {
@@ -122,7 +120,6 @@
 
 <hr />
 
-
 @if (Model.Count() > 0)
 {
     @:<table class="table1">
@@ -140,19 +137,13 @@
                     <p class="itemPrice">$ @string.Format("{0:f}", shoppingCarts[i].Product.Price)</p>
                 @:</td>
                 @:<td style="padding-bottom: 45px;">
-                    <a class="addBtn" name="button" id="addBtn1" asp-action="Add" asp-route-Id="@shoppingCarts[i].Product.Id">
-                        <img src="~/images/plus.png"
-                             alt="Add" />
-                    </a>
+                        <img src="~/images/plus.png" class=" AddToCart" productId="@shoppingCarts[i].Product.Id"/>
                 @:</td>
                 @:<td>
-                    <p class="item_qty">@shoppingCarts[i].Quantity</p>
+                    <p class="item_qty" id="@shoppingCarts[i].Product.Id" >@shoppingCarts[i].Quantity</p>
                 @:</td>
                 @:<td style="padding-bottom: 45px;">
-                    <a class="minusBtn" name="button2" id="MinusBtn1" asp-action="Deduce" asp-route-Id="@shoppingCarts[i].Product.Id">
-                        <img src="~/images/minus.png"
-                             alt="Minus" />
-                    </a>
+                        <img src="~/images/minus.png" class="DeduceFromCart" productId="@shoppingCarts[i].Product.Id" />
                 @:</td>
             @:</tr>
         }
@@ -195,3 +186,4 @@ else
 }
 
 
+<script src="~/js/ajax.js"></script>

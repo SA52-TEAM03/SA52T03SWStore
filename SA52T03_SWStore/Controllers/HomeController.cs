@@ -22,7 +22,7 @@ namespace SA52T03_SWStore.Controllers
             _db = db;
         }
 
-        public async Task<IActionResult> Index(int page=1)
+        public async Task<IActionResult> Index(int page = 1)
         {
 
             HomePageViewModel homePageViewModel = new HomePageViewModel()
@@ -33,30 +33,7 @@ namespace SA52T03_SWStore.Controllers
 
             homePageViewModel.Pager = new Pager(homePageViewModel.Product.Count(), page);
 
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-
-            if (claim != null)
-            {
-
-                List<ShoppingCart> lstShoppingCart = await _db.ShoppingCart.Where(u => u.CustomerId == claim.Value).ToListAsync();
-
-                int count = 0;
-
-                foreach (var cartItem in lstShoppingCart)
-                {
-                    count += cartItem.Quantity;
-                }
-
-                HttpContext.Session.SetInt32("CartCount", count);
-            }
-
             ViewData["Action"] = "Index";
-            
-            if (page == 0)
-            {
-                return RedirectToAction("Index", "OrderHistory");
-            }
 
             return View(homePageViewModel);
         }
@@ -77,16 +54,7 @@ namespace SA52T03_SWStore.Controllers
 
             if (claim != null)
             {
-
-                List<ShoppingCart> lstShoppingCart = await _db.ShoppingCart.Where(u => u.CustomerId == claim.Value).ToListAsync();
-
-                int count = 0;
-
-                foreach (var cartItem in lstShoppingCart)
-                {
-                    count += cartItem.Quantity;
-                }
-
+                int count = shoppingCartCount(_db, claim.Value);
                 HttpContext.Session.SetInt32("CartCount", count);
             }
 
@@ -111,24 +79,6 @@ namespace SA52T03_SWStore.Controllers
 
             homePageViewModel.Pager = new Pager(homePageViewModel.Product.Count(), page);
 
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-
-            if (claim != null)
-            {
-
-                List<ShoppingCart> lstShoppingCart = await _db.ShoppingCart.Where(u => u.CustomerId == claim.Value).ToListAsync();
-
-                int count = 0;
-
-                foreach (var cartItem in lstShoppingCart)
-                {
-                    count += cartItem.Quantity;
-                }
-
-                HttpContext.Session.SetInt32("CartCount", count);
-            }
-
             ViewData["Action"] = "CurrentSearch";
             ViewData["id"] = SearchString;
             ViewData["SearchResult"] = homePageViewModel.Product.Count() + " product(s) related to \"" + SearchString + "\"";
@@ -144,14 +94,11 @@ namespace SA52T03_SWStore.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> AddToCart(int id, int page, string currentaction, string actiondata)
+        public IActionResult AddToCart(int id)
         {
-
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-
-            var productFromDb = await _db.Product.Where(m => m.Id == id).FirstOrDefaultAsync();
-
+            var productFromDb = _db.Product.Where(m => m.Id == id).FirstOrDefault();
 
             ShoppingCart shoppingCart = new ShoppingCart
             {
@@ -161,40 +108,46 @@ namespace SA52T03_SWStore.Controllers
                 Quantity = 1
             };
 
-            ShoppingCart cartFromDb = await _db.ShoppingCart.Where(c => c.CustomerId == shoppingCart.CustomerId
-                                                && c.ProductId == shoppingCart.ProductId).FirstOrDefaultAsync();
-
+            ShoppingCart cartFromDb = _db.ShoppingCart.Where(c => c.CustomerId == shoppingCart.CustomerId
+                                               && c.ProductId == shoppingCart.ProductId).FirstOrDefault();
+            
+            int productCount=0;
             if (cartFromDb == null)
             {
-                await _db.ShoppingCart.AddAsync(shoppingCart);
-
+                _db.ShoppingCart.Add(shoppingCart);
+                productCount = 1;
             }
             else
             {
                 cartFromDb.Quantity++;
-            }
-            await _db.SaveChangesAsync();
-
-            int currentPage = page;
-
-            switch (currentaction)
-            {
-                case "Index":
-                    return RedirectToAction("Index", new { page = currentPage });
-                case "CurrentSearch":
-                    return RedirectToAction("SearchResult", new { SearchString = actiondata, page = currentPage });
-                case "Category":
-                    return RedirectToAction("Category", new { id = actiondata, page = currentPage });
-                default:
-                    return RedirectToAction("Index", new { page = currentPage });
+                productCount = cartFromDb.Quantity;
             }
 
+            _db.SaveChanges();
+
+            int count = shoppingCartCount(_db, claim.Value);
+            HttpContext.Session.SetInt32("CartCount", count);
+
+            return Json(new { message = "Add Success", count, productCount });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public static int shoppingCartCount(ApplicationDbContext db, string CustomerId)
+        {
+            List<ShoppingCart> lstShoppingCart = db.ShoppingCart.Where(u => u.CustomerId == CustomerId).ToList();
+
+            int count = 0;
+
+            foreach (var cartItem in lstShoppingCart)
+            {
+                count += cartItem.Quantity;
+            }
+            return count;
         }
     }
 }

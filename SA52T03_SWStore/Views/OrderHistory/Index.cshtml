@@ -72,7 +72,7 @@
                             </span>
                         </div>
                         <div>
-                            <a class="btn btn-link btn-outline-light col-sm-4" style="float:right" asp-action="AddToCart" asp-controller="Home" asp-route-Id="@orderdetail.Product.Id" asp-route-page="0">Order Again</a>
+                            <a class="btn btn-link btn-outline-light col-sm-4 AddToCart" style="float:right" productId="@orderdetail.Product.Id">Order Again</a>
                         </div>
                     </div>
                 </td>
@@ -85,7 +85,4 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
 <script src="~/js/Orderhistory_Search.js"></script>
-
-
-
-
+<script src="~/js/ajax.js"></script>
