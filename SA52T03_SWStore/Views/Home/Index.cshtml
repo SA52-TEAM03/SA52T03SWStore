@@ -20,20 +20,20 @@
         }
 
 
- .badge{
-     font-size: 14px !important;
-     
- }   
+    .badge {
+        font-size: 14px !important;
+    }
 
- .badge_container{
-     position: absolute;
-     left: 10px;
-     top: 10px;
-     opacity: 0.9;
- }
- .btn-width {
-     width: 150px !important;
- }
+    .badge_container {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        opacity: 0.9;
+    }
+
+    .btn-width {
+        width: 150px !important;
+    }
 </style>
 <div class="container">
     <div class="row align-items-center">
@@ -58,24 +58,24 @@
                     }
                 </div>
             </div>
-            </div>
-            <div class="col text-center">
-                @ViewData["SearchResult"]
-            </div>
-            <div class="col text-right">
-                <form asp-controller="Home" asp-action="SearchResult" method="get">
-                    <input type="text" placeholder="Search.." name="SearchString" />
-                    <input type="submit" value="Search" />
-                </form>
-            </div>
         </div>
+        <div class="col text-center">
+            @ViewData["SearchResult"]
+        </div>
+        <div class="col text-right">
+            <form asp-controller="Home" asp-action="SearchResult" method="get">
+                <input type="text" placeholder="Search.." name="SearchString" />
+                <input type="submit" value="Search" />
+            </form>
+        </div>
+    </div>
     <hr />
     <div class="row">
         @foreach (var product in Model.Product.Skip(Model.Pager.PageSize * (Model.Pager.CurrentPage - 1)).Take(Model.Pager.PageSize))
         {
             <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
                 <div class="card h-100 border-dark">
-                    
+
                     <img src="@product.Image" class="card-img-top align-self-center p-1" style="height:150px; width:auto; margin-top: 10px;" />
 
                     <div class="badge_container">
@@ -96,15 +96,15 @@
                             <span class="badge badge-danger">@product.Category.Name</span>
                         }
 
-                    </div>                      
-                   
+                    </div>
+
                     <div class="card-body" style="margin-top: 10px;">
                         <h5 class="card-title" style="font-size: xx-large;">@product.Name</h5>
                         <p class="card-text">@product.Description</p>
                     </div>
                     <div class="card-footer bg-transparent border-0">
                         <p class="card-text" style="font-size: x-large;"> $@string.Format("{0:f}", product.Price)</p>
-                        <a class="btn btn-primary ATCBtn" asp-action="AddToCart" asp-route-Id="@product.Id" asp-route-page=@Model.Pager.CurrentPage  asp-route-currentaction=@ViewData["Action"] asp-route-actiondata="@ViewData["id"]">Add to Cart</a>
+                        <a class="btn btn-primary ATCBtn AddToCart" productId="@product.Id">Add to Cart</a>
                     </div>
                 </div>
             </div>
@@ -163,3 +163,4 @@
         </ul>
     </nav>
 </div>
+<script src="~/js/ajax.js"></script>

@@ -23,13 +23,12 @@
             padding: 5px 10px;
             font-size: 10px;
         }
-        .cartimage {
-            
-                position:relative;
-                padding:0px;
-                display:inline-block;
-                margin-right: 20px;
 
+        .cartimage {
+            position: relative;
+            padding: 0px;
+            display: inline-block;
+            margin-right: 20px;
         }
     </style>
 </head>
@@ -52,31 +51,22 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="OrderHistory" asp-action="Index">Order History</a>
                         </li>
-                        
+
                         <li class="nav-item">
                             <span class="cartimage">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">
-                                
-                                <img src="/images/shoppingcart.png" style="width:30px; object-fit:fill;">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">
 
-                                @{
-                                    var count = HttpContextAccessor.HttpContext.Session.GetInt32(@"CartCount");
+                                    <img src="/images/shoppingcart.png" style="width:30px; object-fit:fill;">
 
-                                    if (count == null)
-                                    {
-                                        count = 0;
+                                    @{
+                                        var count = HttpContextAccessor.HttpContext.Session.GetInt32(@"CartCount");
+                                        <span id="shoppingCartCount" class="notify-badge">@count</span>
                                     }
-                                    if (count > 0)
-                                    {
-                                    <span class="notify-badge">@count</span>
-                                    }
-                                    
-                                    }
-                                
-                            </a>
+
+                                </a>
                             </span>
                         </li>
-                        
+
 
                         @if (User.IsInRole("Admin"))
                         {
