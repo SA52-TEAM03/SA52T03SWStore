@@ -53,18 +53,24 @@
                         </li>
 
                         <li class="nav-item">
-                            <span class="cartimage">
+                            <div class="cartimage">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">
-
                                     <img src="/images/shoppingcart.png" style="width:30px; object-fit:fill;">
-
                                     @{
                                         var count = HttpContextAccessor.HttpContext.Session.GetInt32(@"CartCount");
-                                        <span id="shoppingCartCount" class="notify-badge">@count</span>
+                                        @if (count == null)
+                                        {
+                                            count = 0;
+                                        }
+                                        <div id="shoppingCartCount">
+                                            @if (count > 0)
+                                            {
+                                                <span class="notify-badge">@count</span>
+                                            }
+                                        </div>
                                     }
-
                                 </a>
-                            </span>
+                            </div>
                         </li>
 
 

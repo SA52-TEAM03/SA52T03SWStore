@@ -16,7 +16,7 @@ function onClick1(event) {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
             let data = JSON.parse(this.responseText);
             elem.innerHTML = data.message;
-            document.getElementById("shoppingCartCount").innerHTML = data.count;
+            document.getElementById("shoppingCartCount").innerHTML = "<span class=\"notify-badge\">"+data.count+"</span>";
             document.getElementById(productid).innerHTML = data.productCount;
         }
     };
@@ -35,7 +35,7 @@ function onClick2(event) {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
             let data = JSON.parse(this.responseText);
             elem.innerHTML = data.message;
-            document.getElementById("shoppingCartCount").innerHTML = data.count;
+            document.getElementById("shoppingCartCount").innerHTML = "<span class=\"notify-badge\">" + data.count + "</span>";
             document.getElementById(productid).innerHTML = data.productCount;
 
         }
