@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SA52T03_SWStore.Data;
 using SA52T03_SWStore.Models;
+using SA52T03_SWStore.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,11 @@ namespace SA52T03_SWStore
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<EmailOptions>(Configuration);
+            
 
             services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddSingleton<IEmailSender, EmailSender>();
